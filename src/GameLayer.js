@@ -30,8 +30,8 @@ var GameLayer = cc.LayerColor.extend({
         this.cave5.setPosition( new cc.Point( 700, 500 ) );
         this.addChild( this.cave5 );
 
-        this.car1 = null;
-        this.createCar();
+        this.createCarArr();
+
         this.scheduleUpdate();
 
         return true;
@@ -45,15 +45,26 @@ var GameLayer = cc.LayerColor.extend({
     onKeyUp: function() {
         this.frog.switchDirection(0);
     },
-    createCar: function(){
-        this.car1 = new Car1();
-        this.car1.setPosition(new cc.Point(800,200));
-        this.addChild(this.car1);
-        this.car1.scheduleUpdate();
+    createCar: function( index ){
+        var car = new Car1();
+        var posX = new Array(800,1100,800);
+        var posY = new Array(200,200,100);
+        car.setPosition(new cc.Point(posX[index],posY[index]));
+        return car;
+    },
+    createCarArr: function(){
+        this.carArr = new Array();
+        for(var i=0;i<2;i++){
+            this.carArr[i] = this.createCar(i);
+            this.addChild(this.carArr[i]);
+            this.carArr[i].scheduleUpdate();
+        }
     },
     update: function( dt ){
-        if(this.car1.hit(this.frog)){
-            this.frog.reborn();
+        for(var i=0;i<2;i++){
+         if(this.carArr[i].hit(this.frog)){
+                this.frog.reborn();
+        }
         }
     }
 });
