@@ -8,7 +8,7 @@ var GameLayer = cc.LayerColor.extend({
         this.frog.setPosition( new cc.Point( 400, 80 ) );
         this.addChild( this.frog );
         this.frog.setZOrder(1);
-        this.frog.scheduleUpdate();
+        //this.frog.scheduleUpdate();
         this.setKeyboardEnabled( true );
 
         this.cave1 = new Cave();
@@ -36,6 +36,7 @@ var GameLayer = cc.LayerColor.extend({
 
     onKeyDown: function( e ) {
         this.frog.switchDirection(e);
+        this.frog.move();
     },
 
     onKeyUp: function() {
