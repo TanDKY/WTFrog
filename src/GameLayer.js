@@ -3,9 +3,8 @@ var GameLayer = cc.LayerColor.extend({
         this._super( new cc.Color4B( 100, 300, 200, 100) );
         this.setPosition( new cc.Point( 0, 0 ) );
         
-        
         this.frog = new Frog();
-        this.frog.setPosition( new cc.Point( 400, 80 ) );
+        this.frog.setPosition( new cc.Point( 400, 60 ) );
         this.addChild( this.frog );
         this.frog.setZOrder(1);
         //this.frog.scheduleUpdate();
@@ -31,6 +30,10 @@ var GameLayer = cc.LayerColor.extend({
         this.cave5.setPosition( new cc.Point( 700, 500 ) );
         this.addChild( this.cave5 );
 
+        this.car1 = null;
+        this.createCar();
+        this.scheduleUpdate();
+
         return true;
     },
 
@@ -41,6 +44,17 @@ var GameLayer = cc.LayerColor.extend({
 
     onKeyUp: function() {
         this.frog.switchDirection(0);
+    },
+    createCar: function(){
+        this.car1 = new Car1();
+        this.car1.setPosition(new cc.Point(800,200));
+        this.addChild(this.car1);
+        this.car1.scheduleUpdate();
+    },
+    update: function( dt ){
+        if(this.car1.hit(this.frog)){
+            this.frog.reborn();
+        }
     }
 });
 

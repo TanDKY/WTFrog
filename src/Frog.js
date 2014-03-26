@@ -11,33 +11,29 @@ var Frog = cc.Sprite.extend({
 		this.direction = e;
     },
     reborn: function(){
-    	var pos = this.getPosition();
-    	if(pos.y>=420){
-    		return true;
-    	}
-    	return false;
+    	this.setPosition(new cc.Point(400, 60 ) );
     },
     move: function(){
     	var pos = this.getPosition();
-		if(this.reborn()){
-            this.setPosition(new cc.Point(400, 80 ) );
+		if(pos.y>=420){
+            this.reborn();
         }
         else{ 
 			if(this.direction == Frog.DIR.UP){
-					this.setPosition( new cc.Point( pos.x, pos.y+30 ));	
+					this.setPosition( new cc.Point( pos.x, pos.y+35 ));	
 			}	
 		    else if(this.direction == Frog.DIR.RIGHT){
-		    		this.setPosition( new cc.Point(pos.x+30,pos.y));
+		    		this.setPosition( new cc.Point(pos.x+35,pos.y));
 		    }
 		    else if(this.direction == Frog.DIR.LEFT){
-		    		this.setPosition( new cc.Point( pos.x-30,pos.y));
+		    		this.setPosition( new cc.Point( pos.x-35,pos.y));
 		    }
 		    else if(this.direction == Frog.DIR.DOWN){
-		    	if(pos.y<=80){
+		    	if(pos.y<=60){
 		    	
 		    	}
 		    	else{
-		    		this.setPosition( new cc.Point( pos.x,pos.y-30));
+		    		this.setPosition( new cc.Point( pos.x,pos.y-35));
 		    	}
 		    }
 		    else if(this.direction == Frog.DIR.STOP){

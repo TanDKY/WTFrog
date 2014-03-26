@@ -14,7 +14,9 @@
         appFiles:[
             'src/Cave.js',
             'src/GameLayer.js',     //add your own files in order here
-            'src/Frog.js'
+            'src/Frog.js',
+            'src/Car1.js',
+            'src/coldetect.js'
         ]
     };
 
