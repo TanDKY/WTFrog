@@ -11,23 +11,23 @@ var GameLayer = cc.LayerColor.extend({
         this.setKeyboardEnabled( true );
 
         this.cave1 = new Cave();
-        this.cave1.setPosition( new cc.Point( 100, 500 ) );
+        this.cave1.setPosition( new cc.Point( 100, 530 ) );
         this.addChild( this.cave1 );
 
         this.cave2 = new Cave();
-        this.cave2.setPosition( new cc.Point( 250, 500 ) );
+        this.cave2.setPosition( new cc.Point( 250, 530 ) );
         this.addChild( this.cave2 );
 
         this.cave3 = new Cave();
-        this.cave3.setPosition( new cc.Point( 400, 500 ) );
+        this.cave3.setPosition( new cc.Point( 400, 530 ) );
         this.addChild( this.cave3 );
 
         this.cave4 = new Cave();
-        this.cave4.setPosition( new cc.Point( 550, 500 ) );
+        this.cave4.setPosition( new cc.Point( 550, 530 ) );
         this.addChild( this.cave4 );
         
         this.cave5 = new Cave();
-        this.cave5.setPosition( new cc.Point( 700, 500 ) );
+        this.cave5.setPosition( new cc.Point( 700, 530 ) );
         this.addChild( this.cave5 );
 
         this.createCarArr();

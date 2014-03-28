@@ -15,7 +15,7 @@ var Frog = cc.Sprite.extend({
     },
     move: function(){
     	var pos = this.getPosition();
-		if(pos.y>=420){
+		if(pos.y>=460){
             this.reborn();
         }
         else{ 
