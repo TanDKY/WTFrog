@@ -16,6 +16,7 @@
             'src/GameLayer.js',     //add your own files in order here
             'src/Frog.js',
             'src/Car1.js',
+            'src/Car2.js',
             'src/coldetect.js'
         ]
     };

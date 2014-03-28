@@ -20,20 +20,20 @@ var Frog = cc.Sprite.extend({
         }
         else{ 
 			if(this.direction == Frog.DIR.UP){
-					this.setPosition( new cc.Point( pos.x, pos.y+35 ));	
+					this.setPosition( new cc.Point( pos.x, pos.y+40 ));	
 			}	
 		    else if(this.direction == Frog.DIR.RIGHT){
-		    		this.setPosition( new cc.Point(pos.x+35,pos.y));
+		    		this.setPosition( new cc.Point(pos.x+40,pos.y));
 		    }
 		    else if(this.direction == Frog.DIR.LEFT){
-		    		this.setPosition( new cc.Point( pos.x-35,pos.y));
+		    		this.setPosition( new cc.Point( pos.x-40,pos.y));
 		    }
 		    else if(this.direction == Frog.DIR.DOWN){
 		    	if(pos.y<=60){
 		    	
 		    	}
 		    	else{
-		    		this.setPosition( new cc.Point( pos.x,pos.y-35));
+		    		this.setPosition( new cc.Point( pos.x,pos.y-40));
 		    	}
 		    }
 		    else if(this.direction == Frog.DIR.STOP){
