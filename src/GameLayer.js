@@ -46,8 +46,8 @@ var GameLayer = cc.LayerColor.extend({
         this.frog.switchDirection(0);
     },
     createCar: function( index ){
-        var posX = new Array(800,1100,0,1500);
-        var posY = new Array(180,180,140,100);
+        var posX = new Array(800,1100,0,1500,-400);
+        var posY = new Array(180,180,140,100,140);
         var car;
         if(posX[index]>=800){
             car = new Car1();
@@ -62,14 +62,14 @@ var GameLayer = cc.LayerColor.extend({
     },
     createCarArr: function(){
         this.carArr = new Array();
-        for(var i=0;i<4;i++){
+        for(var i=0;i<5;i++){
             this.carArr[i] = this.createCar(i);
             this.addChild(this.carArr[i]);
             this.carArr[i].scheduleUpdate();
         }
     },
     update: function( dt ){
-        for(var i=0;i<4;i++){
+        for(var i=0;i<5;i++){
          if(this.carArr[i].hit(this.frog)){
                 this.frog.reborn();
             }
