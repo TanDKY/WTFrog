@@ -17,7 +17,9 @@
             'src/Frog.js',
             'src/Car1.js',
             'src/Car2.js',
-            'src/coldetect.js'
+            'src/coldetect.js',
+            'src/Background.js',
+            'src/Leaf.js'
         ]
     };
 

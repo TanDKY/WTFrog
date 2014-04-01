@@ -1,8 +1,11 @@
 var GameLayer = cc.LayerColor.extend({
     init: function() {
-        this._super( new cc.Color4B( 100, 300, 200, 100) );
+        this._super( new cc.Color4B( 50, 150, 80, 200) );
         this.setPosition( new cc.Point( 0, 0 ) );
         
+        this.bg = new Background();
+        this.addChild( this.bg );
+
         this.frog = new Frog();
         this.frog.setPosition( new cc.Point( 400, 60 ) );
         this.addChild( this.frog );
@@ -46,7 +49,7 @@ var GameLayer = cc.LayerColor.extend({
         this.frog.switchDirection(0);
     },
     createCar: function( index ){
-        var posX = new Array(800,1100,0,1500,-400,1200);
+        var posX = new Array(800,1100,0,1500,-400,1000);
         var posY = new Array(180,180,140,100,140,100);
         var car;
         if(posX[index]>=800){
