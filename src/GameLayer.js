@@ -13,7 +13,7 @@ var GameLayer = cc.LayerColor.extend({
         //this.frog.scheduleUpdate();
         this.setKeyboardEnabled( true );
 
-        this.cave1 = new Cave();
+        /*this.cave1 = new Cave();
         this.cave1.setPosition( new cc.Point( 80, 530 ) );
         this.addChild( this.cave1 );
 
@@ -31,9 +31,24 @@ var GameLayer = cc.LayerColor.extend({
         
         this.cave5 = new Cave();
         this.cave5.setPosition( new cc.Point( 720, 530 ) );
-        this.addChild( this.cave5 );
+        this.addChild( this.cave5 );*/
+
+        for(var i=0;i<5;i++){
+            this.cave = new Cave();
+            this.cave.setPosition( new cc.Point(80+(160*i),530));
+            this.addChild( this.cave );
+        }
 
         this.createCarArr();
+
+        this.leaf1 = new Leaf();
+        this.leaf1.setPosition( new cc.Point(400,260));
+        this.addChild( this.leaf1 );
+        this.leaf1.scheduleUpdate();
+
+        this.leaf2 = new Leaf();
+        this.leaf2.setPosition( new cc.Point(400,300));
+        this.addChild( this.leaf2 );
 
         this.scheduleUpdate();
 
