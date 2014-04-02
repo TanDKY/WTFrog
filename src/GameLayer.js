@@ -107,13 +107,20 @@ var GameLayer = cc.LayerColor.extend({
         else if (check==2){
             this.frog.setPosition(xPos,yPos);
         }*/
+        var checkLife  = true;
         for(var i=0;i<this.leafArr.length;i++){
             for(var j=0;j<this.leafArr[i].length;j++){
                 var xPos = this.leafArr[i][j].getPositionX();
                 var yPos = this.leafArr[i][j].getPositionY();
                 if( this.leafArr[i][j].moveWith(this.frog)){
                     this.frog.setPosition(xPos,yPos);
+                    checkLife = false;
                 }
+            }
+        }
+        if(checkLife){
+            if (this.frog.getPositionY()>=260&&this.frog.getPositionY()!=340){
+                this.frog.reborn();
             }
         }
     }
