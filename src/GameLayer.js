@@ -13,26 +13,6 @@ var GameLayer = cc.LayerColor.extend({
         //this.frog.scheduleUpdate();
         this.setKeyboardEnabled( true );
 
-        /*this.cave1 = new Cave();
-        this.cave1.setPosition( new cc.Point( 80, 530 ) );
-        this.addChild( this.cave1 );
-
-        this.cave2 = new Cave();
-        this.cave2.setPosition( new cc.Point( 240, 530 ) );
-        this.addChild( this.cave2 );
-
-        this.cave3 = new Cave();
-        this.cave3.setPosition( new cc.Point( 400, 530 ) );
-        this.addChild( this.cave3 );
-
-        this.cave4 = new Cave();
-        this.cave4.setPosition( new cc.Point( 560, 530 ) );
-        this.addChild( this.cave4 );
-        
-        this.cave5 = new Cave();
-        this.cave5.setPosition( new cc.Point( 720, 530 ) );
-        this.addChild( this.cave5 );*/
-
         for(var i=0;i<5;i++){
             this.cave = new Cave();
             this.cave.setPosition( new cc.Point(80+(160*i),530));
