@@ -64,7 +64,7 @@ var GameLayer = cc.LayerColor.extend({
         for (var i=0;i<amt;i++){
             console.log(i);
             this.leafs[i] = new Leaf(amt);
-            var yPosArr = new Array(260,420,260,300);
+            var yPosArr = new Array(260,300,260,300);
             this.leafs[i].setPosition( new cc.Point(90+(i*40),yPosArr[amt-3]));
         }
         return this.leafs;
