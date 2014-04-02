@@ -19,7 +19,9 @@
             'src/Car2.js',
             'src/coldetect.js',
             'src/Background.js',
-            'src/Leaf.js'
+            'src/Leaf.js',
+            'src/withdetect.js',
+            'src/newLeaf.js'
         ]
     };
 

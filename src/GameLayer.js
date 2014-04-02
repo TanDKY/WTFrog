@@ -21,14 +21,18 @@ var GameLayer = cc.LayerColor.extend({
 
         this.createCarArr();
 
-        this.leaf1 = new Leaf();
+        this.createLeafArr();
+
+        /*this.leaf1 = new Leaf(0);
         this.leaf1.setPosition( new cc.Point(400,260));
         this.addChild( this.leaf1 );
         this.leaf1.scheduleUpdate();
 
-        this.leaf2 = new Leaf();
+        this.leaf2 = new Leaf(1);
         this.leaf2.setPosition( new cc.Point(400,300));
         this.addChild( this.leaf2 );
+        this.leaf2.scheduleUpdate();*/
+
 
         this.scheduleUpdate();
 
@@ -66,10 +70,50 @@ var GameLayer = cc.LayerColor.extend({
             this.carArr[i].scheduleUpdate();
         }
     },
+    createLeafs: function( amt ){
+        this.leafs = new Array();
+        for (var i=0;i<amt;i++){
+            this.leafs[i] = new newLeaf();
+            this.leafs[i].setPosition( new cc.Point(0+(i*40),260));
+        }
+        return this.leafs;
+    },
+    createLeafArr: function(){
+        this.leafArr = new Array();
+        for(var i=0;i<3;i++){
+            this.leafArr[i] = this.createLeafs(3);
+            for(var j=0;j<3;j++){
+                var xPos = this.leafArr[i][j].getPositionX();
+                var yPos = this.leafArr[i][j].getPositionY();
+                var auto = new Array(400,700,1000);
+                this.leafArr[i][j].setPosition( new cc.Point(auto[i]+xPos,yPos));
+                this.addChild( this.leafArr[i][j]);
+                this.leafArr[i][j].scheduleUpdate();
+            }
+        }
+    }, 
     update: function( dt ){
         for(var i=0;i<6;i++){
          if(this.carArr[i].hit(this.frog)){
                 this.frog.reborn();
+            }
+        }
+        /*var xPos = this.leaf1.getPositionX();
+        var yPos = this.leaf1.getPositionY();
+        var check = this.leaf1.moveWith(this.frog);
+        if(check==1){
+            this.frog.setPosition(xPos-40,yPos);
+        }
+        else if (check==2){
+            this.frog.setPosition(xPos,yPos);
+        }*/
+        for(var i=0;i<this.leafArr.length;i++){
+            for(var j=0;j<this.leafArr[i].length;j++){
+                var xPos = this.leafArr[i][j].getPositionX();
+                var yPos = this.leafArr[i][j].getPositionY();
+                if( this.leafArr[i][j].moveWith(this.frog)){
+                    this.frog.setPosition(xPos,yPos);
+                }
             }
         }
     }
