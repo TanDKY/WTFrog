@@ -1,19 +1,19 @@
 var Car1 = cc.Sprite.extend({
-    ctor: function() {
+    ctor: function () {
         this._super();
-        var num = Math.round(Math.random()*4);
-        var imaArr = new Array('images/1.png','images/2.png','images/3.png',
-                                          'images/4.png','images/5.png');
+        var num = Math.round( Math.random() * 4 );
+        var imaArr = new Array( 'images/1.png', 'images/2.png', 'images/3.png', 'images/4.png', 'images/5.png');
         this.initWithFile( imaArr[num] );
    	},
-   	update: function( dt ){
+   	update: function ( dt ) {
    		//13
       this.setPositionX( this.getPositionX() - 8 );
-   		if(this.getPositionX()<=-50){
-        	this.setPositionX(800);
-        }
+      
+   		if ( this.getPositionX() <= -50 ) {
+        this.setPositionX( 800 );
+      }
    	},
-   	hit: function( player ){
+   	hit: function ( player ) {
    		var playerPos = player.getPosition();
    		var myPos = this.getPosition();
 

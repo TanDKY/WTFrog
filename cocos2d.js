@@ -20,8 +20,10 @@
             'src/coldetect.js',
             'src/Background.js',
             'src/Leaf.js',
-            'src/withdetect.js',
-            'src/newLeaf.js'
+            'src/withdetect1.js',
+            'src/newLeaf.js',
+            'src/wood.js',
+            'src/withdetect2.js'
         ]
     };
 

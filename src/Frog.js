@@ -1,42 +1,33 @@
 var Frog = cc.Sprite.extend({
-    ctor: function() {
+    ctor: function () {
         this._super();
         this.initWithFile( 'images/frog.png' );
-        this.direction= 0;
+        this.direction = 0;
    	},
-   	update: function( dt ) {
-		
-	},
-	switchDirection: function(e) {
+	switchDirection: function ( e ) {
 		this.direction = e;
     },
-    reborn: function(){
-    	this.setPosition(new cc.Point(400, 60 ) );
+    reborn: function (){
+    	this.setPosition( new cc.Point( 400, 60 ) );
     },
-    move: function(){
+    move: function (){
     	var pos = this.getPosition();
          
-		if(this.direction == Frog.DIR.UP){
-				this.setPosition( new cc.Point( pos.x, pos.y+40 ));	
-		}	
-		else if(this.direction == Frog.DIR.RIGHT){
-		    this.setPosition( new cc.Point(pos.x+40,pos.y));
-		}
-		else if(this.direction == Frog.DIR.LEFT){
-		    this.setPosition( new cc.Point( pos.x-40,pos.y));
-		}
-		else if(this.direction == Frog.DIR.DOWN){
-		    if(pos.y<=60){
-		    	
+		if ( this.direction == Frog.DIR.UP ) {
+			this.setPosition( new cc.Point( pos.x, pos.y + 40) );	
+		} else if ( this.direction == Frog.DIR.RIGHT ) {
+		    this.setPosition( new cc.Point( pos.x + 40, pos.y ) );
+		} else if ( this.direction == Frog.DIR.LEFT ) {
+		    this.setPosition( new cc.Point( pos.x - 40, pos.y ) );
+		} else if (this.direction == Frog.DIR.DOWN ) {
+		    if ( pos.y > 60 ) {
+		    	this.setPosition( new cc.Point( pos.x, pos.y - 40 ) );
 		    }
-		   	else{
-		    	this.setPosition( new cc.Point( pos.x,pos.y-40));
-		    }
+		} else if ( this.direction == Frog.DIR.STOP ) {
+	  		this.setPosition( new cc.Point( pos.x, pos.y ) );
 		}
-		else if(this.direction == Frog.DIR.STOP){
-	  		this.setPosition( new cc.Point( pos.x,pos.y));
-		}
-		if(pos.y>460||pos.x<30||pos.x>770){
+
+		if ( pos.y > 460 || pos.x < 30 || pos.x > 770 ) {
 			this.reborn();
 		}
     }
