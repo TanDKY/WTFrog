@@ -25,11 +25,14 @@ var Car = cc.Sprite.extend({
 	    	}
 	    }
    	},
-   	hit: function ( player ){
-   		var playerPos = player.getPosition();
-   		var myPos = this.getPosition();
+   	hit: function ( frog ){
+   		var frogPos = frog.getPosition();
+   		var carPos = this.getPosition();
 
-   		return checkPlayerCarCollision( playerPos.x, playerPos.y, myPos.x, myPos.y );
-   		
+   		if( frogPos.y == carPos.y && Math.abs( frogPos.x - carPos.x ) <= 45 ) { 
+    		return true;
+    	}
+    
+    	return false;
    	}
 });
