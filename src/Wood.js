@@ -1,20 +1,19 @@
 var Wood = cc.Sprite.extend({
-	ctor: function() {
+	ctor: function ( amt ) {
 		this._super();
-		var imaArr = new Array('images/wood3.png');
-		this.initWithFile(imaArr[0]);
-
+		var imaArr = new Array( 'images/wood3.png', 'images/wood4.png' );
+		this.initWithFile( imaArr[amt-3] );
 	},
-	update: function( dt ){
-   		this.setPositionX( this.getPositionX() - 5 );
-   		if(this.getPositionX()<=-100){
-        	this.setPositionX(800);
+	update: function ( dt ) {
+   		this.setPositionX( this.getPositionX() + 5 );
+   		if( this.getPositionX() >= 900 ) {
+        	this.setPositionX( 10 );
         }
-   	},
-   	moveWith: function( frog ){
+  },
+  moveWith: function ( frog ) {
    		var frogPos = frog.getPosition();
-   		var leafPos = this.getPosition();
+   		var woodPos = this.getPosition();
 
-   		return checkFrogWoodWith(frogPos.x, frogPos.y, leafPos.x, leafPos.y )
-   	}
+   		return checkFrogWoodWith( frogPos.x, frogPos.y, woodPos.x, woodPos.y )
+  },
 });

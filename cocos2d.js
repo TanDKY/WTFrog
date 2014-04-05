@@ -22,7 +22,7 @@
             'src/Leaf.js',
             'src/withdetect1.js',
             'src/newLeaf.js',
-            'src/wood.js',
+            'src/Wood.js',
             'src/withdetect2.js'
         ]
     };
