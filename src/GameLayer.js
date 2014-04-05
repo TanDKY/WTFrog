@@ -67,8 +67,7 @@ var GameLayer = cc.LayerColor.extend( {
 
         for ( var i = 0; i < amt; i++ ) {
             this.leafs[i] = new Leaf( amt );
-            var yPosArr = new Array( 260, 380 );
-            this.leafs[i].setPosition( new cc.Point( i * 40, yPosArr[amt - 3] ) );
+            this.leafs[i].setPosition( new cc.Point( i * 40, 0 ) );
         }
 
         return this.leafs;
@@ -80,20 +79,21 @@ var GameLayer = cc.LayerColor.extend( {
             this.leafArr[i] = this.createLeafs( amt );
             for( var j = 0; j < amt; j++ ) {
                 var xPos = this.leafArr[i][j].getPositionX();
-                var yPos = this.leafArr[i][j].getPositionY();
                 var form = new Array( 200, 500, 800 );
-                this.leafArr[i][j].setPosition( new cc.Point( form[i] + xPos, yPos) );
+                this.leafArr[i][j].setPosition( new cc.Point( form[i] + xPos, 0 ) );
             }
         }
 
         return this.leafArr;
     }, 
     createAllLeaf: function () {
-        this.allLeaf = new Array( this.createLeafArr( 3 ), this.createLeafArr( 4 ) );
+        this.allLeaf = new Array( this.createLeafArr( 3 ), this.createLeafArr( 4 ), this.createLeafArr( 3 ) );
 
         for ( var i = 0; i < this.allLeaf.length; i++ ) {
             for ( var j = 0; j < this.allLeaf[i].length; j++) {
                 for( var k = 0; k < this.allLeaf[i][j].length; k++ ) {
+                    var yPosArr = new Array( 260, 380, 460 );
+                    this.allLeaf[i][j][k].setPositionY( yPosArr[i] );
                     this.addChild( this.allLeaf[i][j][k] );
                     this.allLeaf[i][j][k].scheduleUpdate();
                 }
@@ -150,21 +150,37 @@ var GameLayer = cc.LayerColor.extend( {
                 var xPosW = wood.getPositionX();
                 var yPosW = wood.getPositionY();
                 var detectWood = wood.moveWith( this.frog );
-                if ( detectWood == 1 ) {
-                    this.frog.setPosition( xPosW - 40, yPosW );
-                    checkLife = false;
-                } else if ( detectWood == 2 ) {
-                    this.frog.setPosition( xPosW, yPosW );
-                    checkLife = false;
-                } else if ( detectWood  == 3) {
-                    this.frog.setPosition( xPosW + 40, yPosW );
-                    checkLife = false;
+                if ( wood.getAmount() == 3 ){    
+                    if ( detectWood == 1 ) {
+                        this.frog.setPosition( xPosW - 40, yPosW );
+                        checkLife = false;
+                    } else if ( detectWood == 2 ) {
+                        this.frog.setPosition( xPosW, yPosW );
+                        checkLife = false;
+                    } else if ( detectWood  == 3) {
+                        this.frog.setPosition( xPosW + 40, yPosW );
+                        checkLife = false;
+                    }
+                } else if ( wood.getAmount() == 4 ){
+                    if ( detectWood == 1 ) {
+                        this.frog.setPosition( xPosW - 60, yPosW );
+                        checkLife = false;
+                    } else if ( detectWood == 2 ) {
+                        this.frog.setPosition( xPosW - 20, yPosW );
+                        checkLife = false;
+                    } else if ( detectWood  == 3) {
+                        this.frog.setPosition( xPosW + 20, yPosW );
+                        checkLife = false;
+                    } else if ( detectWood == 4 ) {
+                        this.frog.setPosition( xPosW + 60, yPosW );
+                        checkLife = false;
+                    }
                 }
             }
         }
 
         if ( checkLife ) {
-           if ( this.frog.getPositionY() >= 300 && this.frog.getPositionY() != 340) {
+           if ( this.frog.getPositionY() >= 260 && this.frog.getPositionY() != 340) {
                 this.frog.reborn();
             }
         }
