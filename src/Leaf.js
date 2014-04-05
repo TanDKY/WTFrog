@@ -14,11 +14,15 @@ var Leaf = cc.Sprite.extend({
    		if ( this.getPositionX() <= -100 ) {
         	this.setPositionX( 900 );
         }
-   	},
-   	moveWith: function ( frog ){
-   		var frogPos = frog.getPosition();
-   		var leafPos = this.getPosition();
+ 	},
+    moveWith: function ( frog ){
+   	    var frogPos = frog.getPosition();
+   	    var leafPos = this.getPosition();
 
-   		return checkFrogLeafWith( frogPos.x, frogPos.y, leafPos.x, leafPos.y );
-   	}
+   	    if ( frogPos.y == leafPos.y && Math.abs( frogPos.x - leafPos.x ) <= 20 ) {
+            return true;
+        }
+    
+        return false;
+    }
 });

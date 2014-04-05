@@ -15,11 +15,8 @@
             'src/Cave.js',
             'src/GameLayer.js',     //add your own files in order here
             'src/Frog.js',
-            'src/coldetect.js',
             'src/Background.js',
             'src/Leaf.js',
-            'src/withdetect1.js',
-            'src/newLeaf.js',
             'src/Wood.js',
             'src/Car.js'
         ]

@@ -1,11 +1,11 @@
 var GameLayer = cc.LayerColor.extend( {
-    init: function() {
+    init: function () {
         this._super( new cc.Color4B( 50, 150, 80, 200 ) );
         this.setPosition( new cc.Point( 0, 0 ) );
         
         this.background = new Background();
         this.addChild( this.background );
-
+ 
         this.frog = new Frog();
         this.frog.setPosition( new cc.Point( 400, 60 ) );
         this.addChild( this.frog );
@@ -13,11 +13,7 @@ var GameLayer = cc.LayerColor.extend( {
         
         this.setKeyboardEnabled( true );
 
-        for ( var i = 0; i < 5; i++ ) {
-            this.cave = new Cave();
-            this.cave.setPosition( new cc.Point( 80 + ( 160 * i ),530 ) );
-            this.addChild( this.cave );
-        }
+        this.createCave();
 
         this.createCarArr();
 
@@ -35,6 +31,15 @@ var GameLayer = cc.LayerColor.extend( {
     },
     onKeyUp: function () {
         this.frog.switchDirection( 0 );
+    },
+    createCave: function () {
+        this.caveArr = new Array();
+
+        for ( var i = 0; i < 5; i++ ) {
+            this.caveArr[i] = new Cave();
+            this.caveArr[i].setPosition( new cc.Point( 80 + ( 160 * i ), 530 ) );
+            this.addChild( this.caveArr[i] );
+        }
     },
     //Create CAR
     createCar: function ( index ) {
@@ -68,12 +73,12 @@ var GameLayer = cc.LayerColor.extend( {
     },
     createLeafArr: function ( amt ) {
         this.leafArr = new Array();
+        var form = new Array( 200, 500, 800 );
 
         for ( var i = 0; i < 3; i++ ) {
             this.leafArr[i] = this.createLeafs( amt );
             for( var j = 0; j < amt; j++ ) {
                 var xPos = this.leafArr[i][j].getPositionX();
-                var form = new Array( 200, 500, 800 );
                 this.leafArr[i][j].setPosition( new cc.Point( form[i] + xPos, 0 ) );
             }
         }
@@ -82,11 +87,11 @@ var GameLayer = cc.LayerColor.extend( {
     }, 
     createAllLeaf: function () {
         this.allLeaf = new Array( this.createLeafArr( 3 ), this.createLeafArr( 4 ), this.createLeafArr( 3 ) );
+        var yPosArr = new Array( 260, 380, 460 );
 
         for ( var i = 0; i < this.allLeaf.length; i++ ) {
             for ( var j = 0; j < this.allLeaf[i].length; j++) {
                 for( var k = 0; k < this.allLeaf[i][j].length; k++ ) {
-                    var yPosArr = new Array( 260, 380, 460 );
                     this.allLeaf[i][j][k].setPositionY( yPosArr[i] );
                     this.addChild( this.allLeaf[i][j][k] );
                     this.allLeaf[i][j][k].scheduleUpdate();
