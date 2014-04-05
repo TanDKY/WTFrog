@@ -11,9 +11,6 @@ var Wood = cc.Sprite.extend({
         	this.setPositionX( 10 );
         }
     },
-    getAmount: function () {
-        return this.amount;
-    },
     moveWith: function ( frog ) {
         var frogPos = frog.getPosition();
    		var woodPos = this.getPosition();
@@ -22,25 +19,25 @@ var Wood = cc.Sprite.extend({
         if ( frogPos.y == woodPos.y ){
             if ( this.amount == 3 ) {
                 if( diffPos  >= -60 && diffPos  <= -20 ) {
-                    return 1;
+                    return -40;
                 } else if ( Math.abs( diffPos ) <= 20 ) {
-                    return 2;
+                    return 0;
                 } else if ( diffPos >= 20 && diffPos <= 60 ) {
-                    return 3;
+                    return 40;
                 }
             } else if ( this.amount == 4 ) {
                 if ( diffPos >= -80 && diffPos <= -40 ) {
-                    return 1;
+                    return -60;
                 } else if ( diffPos >= -40 && diffPos <= 0 ) {
-                    return 2;
+                    return -20;
                 } else if ( diffPos >= 0 && diffPos <= 40 ) {
-                    return 3;
+                    return 20;
                 } else if ( diffPos >= 40 && diffPos <= 80 )
-                    return 4;
+                    return 60;
             }
         
         }
 
-   		return 0;
+   		return 99;
   },
 });

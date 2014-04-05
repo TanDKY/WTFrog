@@ -150,7 +150,15 @@ var GameLayer = cc.LayerColor.extend( {
                 var xPosW = wood.getPositionX();
                 var yPosW = wood.getPositionY();
                 var detectWood = wood.moveWith( this.frog );
-                if ( wood.getAmount() == 3 ){    
+                if ( detectWood != 99 ) { 
+                    this.frog.setPosition( xPosW + detectWood, yPosW );
+                    checkLife = false;
+                } 
+                
+
+
+
+                /*if ( wood.getAmount() == 3 ){    
                     if ( detectWood == 1 ) {
                         this.frog.setPosition( xPosW - 40, yPosW );
                         checkLife = false;
@@ -175,7 +183,7 @@ var GameLayer = cc.LayerColor.extend( {
                         this.frog.setPosition( xPosW + 60, yPosW );
                         checkLife = false;
                     }
-                }
+                }*/
             }
         }
 
