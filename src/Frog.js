@@ -14,14 +14,14 @@ var Frog = cc.Sprite.extend({
     	var pos = this.getPosition();
          
 		if ( this.direction == Frog.DIR.UP ) {
-			this.setPosition( new cc.Point( pos.x, pos.y + 40) );	
+			this.setPosition( new cc.Point( pos.x, pos.y + Frog.SPEED) );	
 		} else if ( this.direction == Frog.DIR.RIGHT ) {
-		    this.setPosition( new cc.Point( pos.x + 40, pos.y ) );
+		    this.setPosition( new cc.Point( pos.x + Frog.SPEED, pos.y ) );
 		} else if ( this.direction == Frog.DIR.LEFT ) {
-		    this.setPosition( new cc.Point( pos.x - 40, pos.y ) );
+		    this.setPosition( new cc.Point( pos.x - Frog.SPEED, pos.y ) );
 		} else if (this.direction == Frog.DIR.DOWN ) {
 		    if ( pos.y > 60 ) {
-		    	this.setPosition( new cc.Point( pos.x, pos.y - 40 ) );
+		    	this.setPosition( new cc.Point( pos.x, pos.y - Frog.SPEED ) );
 		    }
 		} else if ( this.direction == Frog.DIR.STOP ) {
 	  		this.setPosition( new cc.Point( pos.x, pos.y ) );
@@ -41,3 +41,5 @@ Frog.DIR = {
     STOP: 0
 
 };
+
+Frog.SPEED = 40;
