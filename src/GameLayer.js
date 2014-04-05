@@ -39,17 +39,20 @@ var GameLayer = cc.LayerColor.extend( {
     //Create CAR
     createCar: function ( index ) {
         var car;
-        var posX = new Array( 800, 1100, 0, 1500, -400, 1000);
-        var posY = new Array( 180, 180, 140, 100, 140, 100);
+        var posX = new Array( 0, 200, 400, 600, 800, 1000, 1200 );
+        var random = Math.round( Math.random() * 6 );
+        var posY = new Array( 100, 100, 180, 180, 140, 140);
 
-        if ( posX[index] >= 800 ) {
+        /*if ( index < 4 ) {
             car = new Car1();
-            car.setPosition( new cc.Point( posX[index], posY[index] ) );
+            car.setPosition( new cc.Point( posX[random], posY[index] ) );
         } else {
             car = new Car2();
-            car.setPosition( new cc.Point( posX[index], posY[index] ) );
-        }
-
+            car.setPosition( new cc.Point( posX[random], posY[index] ) );
+        }*/
+        car = new Car( index );
+        car.setPosition( new cc.Point( posX[random], posY[index] ) );
+        
         return car;
     },
     createCarArr: function () {
@@ -150,40 +153,11 @@ var GameLayer = cc.LayerColor.extend( {
                 var xPosW = wood.getPositionX();
                 var yPosW = wood.getPositionY();
                 var detectWood = wood.moveWith( this.frog );
+                
                 if ( detectWood != 99 ) { 
                     this.frog.setPosition( xPosW + detectWood, yPosW );
                     checkLife = false;
                 } 
-                
-
-
-
-                /*if ( wood.getAmount() == 3 ){    
-                    if ( detectWood == 1 ) {
-                        this.frog.setPosition( xPosW - 40, yPosW );
-                        checkLife = false;
-                    } else if ( detectWood == 2 ) {
-                        this.frog.setPosition( xPosW, yPosW );
-                        checkLife = false;
-                    } else if ( detectWood  == 3) {
-                        this.frog.setPosition( xPosW + 40, yPosW );
-                        checkLife = false;
-                    }
-                } else if ( wood.getAmount() == 4 ){
-                    if ( detectWood == 1 ) {
-                        this.frog.setPosition( xPosW - 60, yPosW );
-                        checkLife = false;
-                    } else if ( detectWood == 2 ) {
-                        this.frog.setPosition( xPosW - 20, yPosW );
-                        checkLife = false;
-                    } else if ( detectWood  == 3) {
-                        this.frog.setPosition( xPosW + 20, yPosW );
-                        checkLife = false;
-                    } else if ( detectWood == 4 ) {
-                        this.frog.setPosition( xPosW + 60, yPosW );
-                        checkLife = false;
-                    }
-                }*/
             }
         }
 
