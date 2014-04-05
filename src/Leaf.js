@@ -6,10 +6,10 @@ var Leaf = cc.Sprite.extend({
 	},
 	update: function ( dt ) {
    		if ( this.amount == 3 ) {
-        this.setPositionX( this.getPositionX() - 5 );
-      } else {
-        this.setPositionX( this.getPositionX() - 8 );
-      }
+            this.setPositionX( this.getPositionX() - 5 );
+        } else {
+            this.setPositionX( this.getPositionX() - 8 );
+        }
 
    		if ( this.getPositionX() <= -100 ) {
         	this.setPositionX( 900 );

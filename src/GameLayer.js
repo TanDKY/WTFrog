@@ -157,6 +157,15 @@ var GameLayer = cc.LayerColor.extend( {
             }
         }
 
+        for ( var i = 0; i < this.caveArr.length; i++ ){
+            if (this.caveArr[i].checkFinish( this.frog )){
+                var flag = new Flag();
+                flag.setPosition( this.caveArr[i].getPosition() );
+                this.addChild( flag );
+                this.frog.reborn();
+            }
+        }
+
         if ( checkLife ) {
            if ( this.frog.getPositionY() >= 260 && this.frog.getPositionY() != 340) {
                 this.frog.reborn();

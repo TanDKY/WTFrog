@@ -18,7 +18,8 @@
             'src/Background.js',
             'src/Leaf.js',
             'src/Wood.js',
-            'src/Car.js'
+            'src/Car.js',
+            'src/Flag.js'
         ]
     };
 

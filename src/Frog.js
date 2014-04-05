@@ -27,7 +27,7 @@ var Frog = cc.Sprite.extend({
 	  		this.setPosition( new cc.Point( pos.x, pos.y ) );
 		}
 
-		if ( pos.y > 460 || pos.x < 30 || pos.x > 770 ) {
+		if ( pos.x < 30 || pos.x > 770 ) {
 			this.reborn();
 		}
     }
