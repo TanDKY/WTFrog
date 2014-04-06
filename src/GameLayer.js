@@ -38,7 +38,7 @@ var GameLayer = cc.LayerColor.extend( {
         this.lifeScoreArr = new Array();
         for ( var i = 0; i < lifeScore; i++ ) {
             this.lifeScoreArr[i] = cc.Sprite.create( 'images/life.png' );
-            this.lifeScoreArr[i].setPosition( cc.p( 540 + ( i * 50 ) , 570 ));
+            this.lifeScoreArr[i].setPosition( cc.p( 760 - ( i * 50 ) , 570 ));
             this.addChild( this.lifeScoreArr[i] );
         }
     },
