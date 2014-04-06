@@ -10,12 +10,14 @@ var GameLayer = cc.LayerColor.extend( {
         this.frog.setPosition( new cc.Point( 400, 60 ) );
         this.addChild( this.frog );
         this.frog.setZOrder( 1 );
+
+        this.createLife();
         
         this.setKeyboardEnabled( true );
 
         this.createCave();
 
-        this.createCarArr();
+        this.carArr = this.createCarArr();
 
         this.createAllLeaf();
 
@@ -32,12 +34,24 @@ var GameLayer = cc.LayerColor.extend( {
     onKeyUp: function () {
         this.frog.switchDirection( 0 );
     },
+    createLife: function () {
+        this.lifeScoreArr = new Array();
+        for ( var i = 0; i < lifeScore; i++ ) {
+            this.lifeScoreArr[i] = cc.Sprite.create( 'images/life.png' );
+            this.lifeScoreArr[i].setPosition( cc.p( 540 + ( i * 50 ) , 570 ));
+            this.addChild( this.lifeScoreArr[i] );
+        }
+    },
+    updateLife: function() {
+       lifeScore--;
+       this.removeChild( this.lifeScoreArr[lifeScore]);
+    },
     createCave: function () {
         this.caveArr = new Array();
 
         for ( var i = 0; i < 5; i++ ) {
             this.caveArr[i] = new Cave();
-            this.caveArr[i].setPosition( new cc.Point( 80 + ( 160 * i ), 530 ) );
+            this.caveArr[i].setPosition( new cc.Point( 80 + ( 160 * i ), 520 ) );
             this.addChild( this.caveArr[i] );
         }
     },
@@ -52,13 +66,14 @@ var GameLayer = cc.LayerColor.extend( {
         return car;
     },
     createCarArr: function () {
-        this.carArr = new Array();
+        var carArr = new Array();
 
         for ( var i = 0; i < 9; i++ ) {
-            this.carArr[i] = this.createCar( i );
-            this.addChild( this.carArr[i] );
-            this.carArr[i].scheduleUpdate();
+            carArr[i] = this.createCar( i );
+            this.addChild( carArr[i] );
+            carArr[i].scheduleUpdate();
         }
+        return carArr;
     },
     //Create LEAFS
     createLeafs: function ( amt ) {
@@ -125,6 +140,7 @@ var GameLayer = cc.LayerColor.extend( {
          for ( var i = 0; i < this.carArr.length; i++ ) {
             if( this.carArr[i].hit( this.frog ) ) {
                 this.frog.reborn();
+                this.updateLife();
             }
         }
         
@@ -169,6 +185,7 @@ var GameLayer = cc.LayerColor.extend( {
         if ( checkLife ) {
            if ( this.frog.getPositionY() >= 260 && this.frog.getPositionY() != 340) {
                 this.frog.reborn();
+                 this.updateLife();
             }
         }
 
@@ -184,4 +201,5 @@ var StartScene = cc.Scene.extend({
         this.addChild( layer );
     }
 });
+var lifeScore = 5;
 

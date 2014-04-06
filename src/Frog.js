@@ -9,6 +9,7 @@ var Frog = cc.Sprite.extend({
     },
     reborn: function (){
     	this.setPosition( new cc.Point( 400, 60 ) );
+    	
     },
     move: function (){
     	var pos = this.getPosition();
