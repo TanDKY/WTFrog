@@ -17,7 +17,7 @@ var GameLayer = cc.LayerColor.extend( {
 
         this.createCave();
 
-        this.carArr = this.createCarArr();
+        this.createCarArr();
 
         this.createAllLeaf();
 
@@ -27,6 +27,7 @@ var GameLayer = cc.LayerColor.extend( {
 
         return true;
     },
+
     onKeyDown: function ( e ) {
         this.frog.switchDirection( e );
         this.frog.move();
@@ -34,6 +35,8 @@ var GameLayer = cc.LayerColor.extend( {
     onKeyUp: function () {
         this.frog.switchDirection( 0 );
     },
+
+    //Create Life
     createLife: function () {
         this.lifeScoreArr = new Array();
         for ( var i = 0; i < lifeScore; i++ ) {
@@ -46,6 +49,8 @@ var GameLayer = cc.LayerColor.extend( {
        lifeScore--;
        this.removeChild( this.lifeScoreArr[lifeScore]);
     },
+
+    /////////    CAVE    ////////////
     createCave: function () {
         this.caveArr = new Array();
 
@@ -55,7 +60,8 @@ var GameLayer = cc.LayerColor.extend( {
             this.addChild( this.caveArr[i] );
         }
     },
-    //Create CAR
+
+    /////////    CAR    ////////////
     createCar: function ( index ) {
         var randomPosX = Math.round( Math.random() * 8 ) * 150;
         var posY = new Array( 100, 140, 180);
@@ -66,16 +72,23 @@ var GameLayer = cc.LayerColor.extend( {
         return car;
     },
     createCarArr: function () {
-        var carArr = new Array();
+        this.carArr = new Array();
 
         for ( var i = 0; i < 9; i++ ) {
-            carArr[i] = this.createCar( i );
-            this.addChild( carArr[i] );
-            carArr[i].scheduleUpdate();
+            this.carArr[i] = this.createCar( i );
+            this.addChild( this.carArr[i] );
+            this.carArr[i].scheduleUpdate();
         }
-        return carArr;
+
     },
-    //Create LEAFS
+    resetCar: function() {
+        for ( var i = 0; i < this.carArr.length; i++ ) {
+            this.removeChild( this.carArr[i] );
+        }
+        this.createCarArr();
+    },
+
+     /////////    LEAF   ////////////
     createLeafs: function ( amt ) {
         this.leafs = new Array();
 
@@ -114,7 +127,8 @@ var GameLayer = cc.LayerColor.extend( {
             }
         }
     },
-    //Create Wood
+
+    /////////    WOOD    ////////////
     createWood: function ( amt ) {
         this.woodArr = new Array();
         var xPosArr = new Array( 200, 500, 800 );
@@ -135,14 +149,20 @@ var GameLayer = cc.LayerColor.extend( {
         } 
     },
 
-    update: function( dt ) {
-        
-         for ( var i = 0; i < this.carArr.length; i++ ) {
+    /////////    CHECK    ////////////
+    checkHitCar: function() {
+        for ( var i = 0; i < this.carArr.length; i++ ) {
             if( this.carArr[i].hit( this.frog ) ) {
                 this.frog.reborn();
                 this.updateLife();
             }
         }
+    },
+
+    /////////    UPDATE    ////////////
+    update: function( dt ) {
+        
+        this.checkHitCar();
         
         var checkLife  = true;
         for ( var i = 0; i < this.allLeaf.length; i++ ) {
@@ -171,7 +191,7 @@ var GameLayer = cc.LayerColor.extend( {
                     checkLife = false;
                 } 
             }
-        }
+        }   
 
         for ( var i = 0; i < this.caveArr.length; i++ ){
             if (this.caveArr[i].checkFinish( this.frog )){
@@ -179,6 +199,7 @@ var GameLayer = cc.LayerColor.extend( {
                 flag.setPosition( this.caveArr[i].getPosition() );
                 this.addChild( flag );
                 this.frog.reborn();
+                this.resetCar();
             }
         }
 
@@ -201,5 +222,11 @@ var StartScene = cc.Scene.extend({
         this.addChild( layer );
     }
 });
+
 var lifeScore = 10;
 
+ GameLayer.STATES = {
+    FRONT: 1,
+    STARTED: 2,
+    ENDED: 3
+ };

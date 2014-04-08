@@ -11,14 +11,14 @@ var Car = cc.Sprite.extend({
    	},
    	update: function ( dt ){
    		if ( this.index % 3 != 1 ) { 
-   			this.setPositionX( this.getPositionX() - 8 );
+   			this.setPositionX( this.getPositionX() - Car.SPEED.FROM_RIGHT );
       
 	   		if ( this.getPositionX() <= -100 ) {
 	    	    this.setPositionX( 1100 );
 	  	    }
    		} 
    		else {
-	   		this.setPositionX( this.getPositionX() + 10);
+	   		this.setPositionX( this.getPositionX() + Car.SPEED.FROM_LEFT );
 	   		
 	    	if ( this.getPositionX() >= 900 ) {
 	        	this.setPositionX( -300 );
@@ -36,3 +36,7 @@ var Car = cc.Sprite.extend({
     	return false;
    	}
 });
+Car.SPEED = {
+  FROM_RIGHT: 8,
+  FROM_LEFT: 5
+}
