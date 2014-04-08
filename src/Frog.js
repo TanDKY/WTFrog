@@ -7,11 +7,11 @@ var Frog = cc.Sprite.extend({
 	switchDirection: function ( e ) {
 		this.direction = e;
     },
-    reborn: function (){
+    reborn: function () {
     	this.setPosition( new cc.Point( 400, 60 ) );
-    	
+
     },
-    move: function (){
+    move: function () {
     	var pos = this.getPosition();
          
 		if ( this.direction == Frog.DIR.UP ) {
@@ -28,7 +28,7 @@ var Frog = cc.Sprite.extend({
 	  		this.setPosition( new cc.Point( pos.x, pos.y ) );
 		}
 
-		if ( pos.x < 30 || pos.x > 770 ) {
+		if ( pos.x < 5 || pos.x > 795 ) {
 			this.reborn();
 		}
     }

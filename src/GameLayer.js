@@ -201,5 +201,5 @@ var StartScene = cc.Scene.extend({
         this.addChild( layer );
     }
 });
-var lifeScore = 5;
+var lifeScore = 10;
 
