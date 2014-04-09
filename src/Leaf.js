@@ -6,9 +6,9 @@ var Leaf = cc.Sprite.extend({
 	},
 	update: function ( dt ) {
    		if ( this.amount == 3 ) {
-            this.setPositionX( this.getPositionX() - 5 );
+            this.setPositionX( this.getPositionX() - Leaf.SPEED.THREE );
         } else {
-            this.setPositionX( this.getPositionX() - 8 );
+            this.setPositionX( this.getPositionX() - Leaf.SPEED.FOUR );
         }
 
    		if ( this.getPositionX() <= -100 ) {
@@ -26,3 +26,8 @@ var Leaf = cc.Sprite.extend({
         return false;
     }
 });
+
+Leaf.SPEED = {
+  THREE: 4,
+  FOUR: 6
+}

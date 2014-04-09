@@ -158,10 +158,21 @@ var GameLayer = cc.LayerColor.extend( {
             }
         }
     },
+    checkSide: function() {
+
+        if ( this.frog.getPositionX() < 5 || this.frog.getPositionX() > 795 ) {   
+            this.updateLife();
+            this.frog.reborn();
+        }
+
+    },
 
     /////////    UPDATE    ////////////
     update: function( dt ) {
         
+
+        this.checkSide();
+
         this.checkHitCar();
         
         var checkLife  = true;

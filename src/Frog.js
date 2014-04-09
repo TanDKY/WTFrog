@@ -27,10 +27,7 @@ var Frog = cc.Sprite.extend({
 		} else if ( this.direction == Frog.DIR.STOP ) {
 	  		this.setPosition( new cc.Point( pos.x, pos.y ) );
 		}
-
-		if ( pos.x < 5 || pos.x > 795 ) {
-			this.reborn();
-		}
+		
     }
 });
 

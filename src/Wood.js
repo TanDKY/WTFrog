@@ -6,7 +6,7 @@ var Wood = cc.Sprite.extend({
 		this.initWithFile( imaArr[amt-3] );
 	},
 	update: function ( dt ) {
-   		this.setPositionX( this.getPositionX() + 5 );
+   		this.setPositionX( this.getPositionX() + Wood.SPEED );
    		if( this.getPositionX() >= 900 ) {
         	this.setPositionX( 10 );
         }
@@ -41,3 +41,5 @@ var Wood = cc.Sprite.extend({
    		return 99;
   },
 });
+
+Wood.SPEED = 5;

@@ -37,6 +37,6 @@ var Car = cc.Sprite.extend({
    	}
 });
 Car.SPEED = {
-  FROM_RIGHT: 8,
-  FROM_LEFT: 5
+  FROM_RIGHT: 6,
+  FROM_LEFT: 9
 }
