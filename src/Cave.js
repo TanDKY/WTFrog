@@ -18,5 +18,11 @@ var Cave = cc.Sprite.extend({
         }
         
         return false;
-   	}
+   	},
+    getAvailable: function() {
+        return this.available;
+    },
+    setAvailable: function( e ) {
+        this.available = e;
+    }
 });

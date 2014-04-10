@@ -11,11 +11,15 @@ var GameLayer = cc.LayerColor.extend( {
         this.addChild( this.frog );
         this.frog.setZOrder( 1 );
 
+        this.passArr = new Array( false, false, false, false, false );
+
         this.createLife();
-        
+
         this.setKeyboardEnabled( true );
 
         this.createCave();
+
+        this.createFlag();
 
         this.createCarArr();
 
@@ -49,6 +53,19 @@ var GameLayer = cc.LayerColor.extend( {
        lifeScore--;
        this.removeChild( this.lifeScoreArr[lifeScore]);
     },
+
+     /////////    FLAG    ////////////
+    createFlag: function () {
+        this.flagArr = new Array();
+
+        for ( var i = 0; i < 5; i++ ) {
+            this.flagArr[i] = new Flag();
+            this.flagArr[i].setPosition( new cc.Point( 80 + ( 160 * i ), 520 ) );
+            this.addChild( this.flagArr[i] );
+            this.flagArr[i].setVisible( false );
+        }
+    },
+
 
     /////////    CAVE    ////////////
     createCave: function () {
@@ -160,21 +177,43 @@ var GameLayer = cc.LayerColor.extend( {
     },
     checkSide: function() {
 
-        if ( this.frog.getPositionX() < 5 || this.frog.getPositionX() > 795 ) {   
+        if ( this.frog.getPositionX() < 1 || this.frog.getPositionX() > 799 ) {   
             this.updateLife();
             this.frog.reborn();
         }
 
     },
+    checkPassLevel: function() {
+       
+        for ( var i = 0; i < 5; i++ ) {
+            this.passArr[i] = !this.caveArr[i].getAvailable();
+        }
+
+
+        if( this.passArr[0] == true && this.passArr[1] == true && this.passArr[2] == true && this.passArr[3] == true && this.passArr[4] == true ) {
+            
+            for ( var i = 0; i < 5; i++ ){
+                this.flagArr[i].setVisible( false );
+            }
+
+            for ( var i = 0; i < 5; i++ ){
+                this.passArr[i] = false;
+            }
+
+            for ( var i = 0; i < 5; i++ ){
+                this.caveArr[i].setAvailable( true );
+            }
+        } 
+        
+    },
 
     /////////    UPDATE    ////////////
     update: function( dt ) {
         
-
         this.checkSide();
 
         this.checkHitCar();
-        
+
         var checkLife  = true;
         for ( var i = 0; i < this.allLeaf.length; i++ ) {
             for ( var j = 0; j < this.allLeaf[i].length; j++ ) {
@@ -206,20 +245,22 @@ var GameLayer = cc.LayerColor.extend( {
 
         for ( var i = 0; i < this.caveArr.length; i++ ){
             if (this.caveArr[i].checkFinish( this.frog )){
-                var flag = new Flag();
-                flag.setPosition( this.caveArr[i].getPosition() );
-                this.addChild( flag );
+
+                this.flagArr[i].setVisible( true );
                 this.frog.reborn();
                 this.resetCar();
+
             }
         }
 
         if ( checkLife ) {
            if ( this.frog.getPositionY() >= 260 && this.frog.getPositionY() != 340) {
                 this.frog.reborn();
-                 this.updateLife();
+                this.updateLife();
             }
         }
+
+        this.checkPassLevel();
 
     }
 

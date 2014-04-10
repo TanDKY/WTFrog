@@ -9,11 +9,11 @@ var Car = cc.Sprite.extend({
         	this.setRotation( 180 );
         }
    	},
-   	update: function ( dt ){
+   	update: function ( dt ) {
    		if ( this.index % 3 != 1 ) { 
-   			this.setPositionX( this.getPositionX() - Car.SPEED.FROM_RIGHT );
-      
-	   		if ( this.getPositionX() <= -100 ) {
+   		    this.setPositionX( this.getPositionX() - Car.SPEED.FROM_RIGHT );
+    
+	   		  if ( this.getPositionX() <= -100 ) {
 	    	    this.setPositionX( 1100 );
 	  	    }
    		} 
