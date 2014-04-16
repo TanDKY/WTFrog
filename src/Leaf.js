@@ -12,7 +12,7 @@ var Leaf = cc.Sprite.extend({
         }
 
    		if ( this.getPositionX() <= -100 ) {
-        	this.setPositionX( 900 );
+        	this.setPositionX( 920 );
         }
  	},
     moveWith: function ( frog ){

@@ -14,7 +14,12 @@ var g_resources = [
     {src: 'images/road.png' },
     {src: 'images/water.png' },
     {src: 'images/wood3.png' },
-    {src: 'images/wood4.png' }
+    {src: 'images/wood4.png' },
+    {src: 'images/bg1.png' },
+    {src: 'images/opening.png' },
+    {src: 'images/word.png' },
+    
+       
  
     //plist
  

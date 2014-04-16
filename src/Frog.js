@@ -3,6 +3,7 @@ var Frog = cc.Sprite.extend({
         this._super();
         this.initWithFile( 'images/frog.png' );
         this.direction = 0;
+        this.setPosition( new cc.Point( 400, 60 ) );
    	},
 	switchDirection: function ( e ) {
 		this.direction = e;

@@ -3,35 +3,20 @@ var GameLayer = cc.LayerColor.extend( {
         this._super( new cc.Color4B( 50, 150, 80, 200 ) );
         this.setPosition( new cc.Point( 0, 0 ) );
         
-        this.state = GameLayer.STATES.STARTED;
+        this.state = GameLayer.STATES.FRONT;
+        
+        this.createBackground( 0 );       
+        
+        this.word = new Word();
+        this.addChild( this.word );
+        this.word.scheduleUpdate();
 
-        this.background = new Background();
-        this.addChild( this.background );
- 
-        this.frog = new Frog();
-        this.frog.setPosition( new cc.Point( 400, 60 ) );
-        this.addChild( this.frog );
-        this.frog.setZOrder( 1 );
-
-        this.createTime();
-
+        this.checkLife = true;
         this.lifeScore = 10;
 
         this.isCompleteArr = new Array( false, false, false, false, false );
 
-        this.createLife();
-
         this.setKeyboardEnabled( true );
-
-        this.createCave();
-
-        this.createFlag();
-
-        this.createCarArr();
-
-        this.createAllLeaf();
-
-        this.createAllWoods();
 
         this.scheduleUpdate();
 
@@ -39,8 +24,23 @@ var GameLayer = cc.LayerColor.extend( {
     },
 
     onKeyDown: function ( e ) {
+        
         if( this.state == GameLayer.STATES.FRONT ) { 
+        
+            this.state = GameLayer.STATES.STARTED;
+            this.removeChild( this.word );
+            this.removeChild( this.background );
 
+            this.createBackground( 1 );
+            this.createFrog();
+            this.createCave();
+            this.createFlag();
+            this.createCarArr();
+            this.createAllLeaf();
+            this.createAllWoods();
+            this.createLife();
+            this.createTime();
+        
         } else {
             this.frog.switchDirection( e );
             this.frog.move();
@@ -49,6 +49,19 @@ var GameLayer = cc.LayerColor.extend( {
     },
     onKeyUp: function () {
         this.frog.switchDirection( 0 );
+    },
+
+    createFrog: function () {
+
+        this.frog = new Frog();
+        this.addChild( this.frog );
+        this.frog.setZOrder( 1 );
+
+    },
+
+    createBackground: function( index ) {
+        this.background = new Background( index );
+        this.addChild( this.background );
     },
 
     createTime: function () {
@@ -243,17 +256,7 @@ var GameLayer = cc.LayerColor.extend( {
             this.createTime();
         }
     },
-
-    /////////    UPDATE    ////////////
-    update: function( dt ) {
-        
-        this.checkTime();
-
-        this.checkSide();
-
-        this.checkHitCar();
-
-        var checkLife  = true;
+    checkMoveLeaf: function() {
 
         for ( var i = 0; i < this.allLeaf.length; i++ ) {
             for ( var j = 0; j < this.allLeaf[i].length; j++ ) {
@@ -261,13 +264,16 @@ var GameLayer = cc.LayerColor.extend( {
                     var leaf = this.allLeaf[i][j][k];
                     var xPos = leaf.getPositionX();
                     var yPos = leaf.getPositionY();
-                    if( leaf.moveWith( this.frog ) ){
+                    if ( leaf.moveWith( this.frog ) ){
                         this.frog.setPosition( xPos, yPos );
-                        checkLife = false;
+                        this.checkLife = false;
                     }
                 }
             }
         }
+
+    },
+    checkMoveWood: function() {
 
         for ( var i = 0; i < this.allWoods.length; i++ ) { 
             for ( var j = 0; j < this.allWoods[i].length; j++ ) {
@@ -278,10 +284,13 @@ var GameLayer = cc.LayerColor.extend( {
                 
                 if ( detectWood != 99 ) { 
                     this.frog.setPosition( xPosW + detectWood, yPosW );
-                    checkLife = false;
+                    this.checkLife = false;
                 } 
             }
         }   
+
+    },
+    checkCave: function() {
 
         for ( var i = 0; i < this.caveArr.length; i++ ){
             if (this.caveArr[i].checkFinish( this.frog )){
@@ -294,7 +303,10 @@ var GameLayer = cc.LayerColor.extend( {
             }
         }
 
-        if ( checkLife ) {
+    },
+    checkWater: function() {
+
+         if ( this.checkLife ) {
            if ( this.frog.getPositionY() >= 260 && this.frog.getPositionY() != 340) {
                 this.frog.reborn();
                 this.resetCar();
@@ -303,7 +315,32 @@ var GameLayer = cc.LayerColor.extend( {
             }
         }
 
+    },
+
+    /////////    UPDATE    ////////////
+    update: function( dt ) {
+        if( this.state == GameLayer.STATES.FRONT ) {
+
+        } else { 
+        
+        this.checkTime();
+
+        this.checkSide();
+
+        this.checkHitCar();
+
+        this.checkMoveLeaf();
+
+        this.checkMoveWood();
+
+        this.checkCave();
+
+        this.checkWater();
+
+        this.checkLife = true;
+
         this.checkCompleteLevel();
+    }
 
     }
 

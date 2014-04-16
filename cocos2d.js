@@ -21,7 +21,8 @@
             'src/Wood.js',
             'src/Car.js',
             'src/Flag.js',
-            'src/time.js'
+            'src/time.js',
+            'src/Word.js'
         ]
     };
 
