@@ -20,7 +20,8 @@
             'src/Leaf.js',
             'src/Wood.js',
             'src/Car.js',
-            'src/Flag.js'
+            'src/Flag.js',
+            'src/time.js'
         ]
     };
 

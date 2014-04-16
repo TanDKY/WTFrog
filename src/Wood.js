@@ -2,8 +2,8 @@ var Wood = cc.Sprite.extend({
 	ctor: function ( amt ) {
 		this._super();
     this.amount = amt;
-		var imaArr = new Array( 'images/wood3.png', 'images/wood4.png' );
-		this.initWithFile( imaArr[amt-3] );
+		var imageArr = new Array( 'images/wood3.png', 'images/wood4.png' );
+		this.initWithFile( imageArr[amt-3] );
 	},
 	update: function ( dt ) {
    		this.setPositionX( this.getPositionX() + Wood.SPEED );

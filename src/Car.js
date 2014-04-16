@@ -3,8 +3,8 @@ var Car = cc.Sprite.extend({
         this._super();
         this.index = index;
         var num = Math.round( Math.random() * 4 );
-        var imaArr = new Array( 'images/1.png', 'images/2.png', 'images/3.png', 'images/4.png', 'images/5.png' );
-        this.initWithFile( imaArr[num] );
+        var imageArr = new Array( 'images/1.png', 'images/2.png', 'images/3.png', 'images/4.png', 'images/5.png' );
+        this.initWithFile( imageArr[num] );
         if ( index % 3 == 1 ){
         	this.setRotation( 180 );
         }
@@ -36,6 +36,7 @@ var Car = cc.Sprite.extend({
     	return false;
    	}
 });
+
 Car.SPEED = {
   FROM_RIGHT: 6,
   FROM_LEFT: 9

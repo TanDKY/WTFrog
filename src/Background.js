@@ -1,8 +1,10 @@
 var Background = cc.Sprite.extend({
     ctor: function () {
         this._super();
+        this.initWithFile( 'images/bg1.png' );
+        this.setPosition( 400, 300 );
 
-        this.road = cc.Sprite.create( 'images/road.jpg' );
+        /*this.road = cc.Sprite.create( 'images/road.jpg' );
         this.road.setPosition( new cc.Point( 400, 140 ) );
         this.addChild( this.road );
 
@@ -20,6 +22,7 @@ var Background = cc.Sprite.extend({
 
 		this.rail = cc.Sprite.create( 'images/rail.png' );  
         this.rail.setPosition( new cc.Point( 400, 340 ) );
-        this.addChild( this.rail );        
+        this.addChild( this.rail ); */       
    	}
+
  });

@@ -3,6 +3,8 @@ var GameLayer = cc.LayerColor.extend( {
         this._super( new cc.Color4B( 50, 150, 80, 200 ) );
         this.setPosition( new cc.Point( 0, 0 ) );
         
+        this.state = GameLayer.STATES.STARTED;
+
         this.background = new Background();
         this.addChild( this.background );
  
@@ -11,7 +13,11 @@ var GameLayer = cc.LayerColor.extend( {
         this.addChild( this.frog );
         this.frog.setZOrder( 1 );
 
-        this.passArr = new Array( false, false, false, false, false );
+        this.createTime();
+
+        this.lifeScore = 10;
+
+        this.isCompleteArr = new Array( false, false, false, false, false );
 
         this.createLife();
 
@@ -33,25 +39,39 @@ var GameLayer = cc.LayerColor.extend( {
     },
 
     onKeyDown: function ( e ) {
-        this.frog.switchDirection( e );
-        this.frog.move();
+        if( this.state == GameLayer.STATES.FRONT ) { 
+
+        } else {
+            this.frog.switchDirection( e );
+            this.frog.move();
+        }
+
     },
     onKeyUp: function () {
         this.frog.switchDirection( 0 );
     },
 
+    createTime: function () {
+        this.time = new Time();
+        this.addChild( this.time );
+        this.time.scheduleUpdate();
+    },
+
     //Create Life
     createLife: function () {
         this.lifeScoreArr = new Array();
-        for ( var i = 0; i < lifeScore; i++ ) {
+
+        for ( var i = 0; i < this.lifeScore; i++ ) {
             this.lifeScoreArr[i] = cc.Sprite.create( 'images/life.png' );
             this.lifeScoreArr[i].setPosition( cc.p( 760 - ( i * 50 ) , 570 ));
             this.addChild( this.lifeScoreArr[i] );
         }
+
     },
-    updateLife: function() {
-       lifeScore--;
-       this.removeChild( this.lifeScoreArr[lifeScore]);
+    updateLife: function( amt ) {
+       this.lifeScore = this.lifeScore + amt;
+       console.log( amt );
+       this.removeChild( this.lifeScoreArr[this.lifeScore]);
     },
 
      /////////    FLAG    ////////////
@@ -64,8 +84,8 @@ var GameLayer = cc.LayerColor.extend( {
             this.addChild( this.flagArr[i] );
             this.flagArr[i].setVisible( false );
         }
-    },
 
+    },
 
     /////////    CAVE    ////////////
     createCave: function () {
@@ -76,6 +96,7 @@ var GameLayer = cc.LayerColor.extend( {
             this.caveArr[i].setPosition( new cc.Point( 80 + ( 160 * i ), 520 ) );
             this.addChild( this.caveArr[i] );
         }
+
     },
 
     /////////    CAR    ////////////
@@ -102,6 +123,7 @@ var GameLayer = cc.LayerColor.extend( {
         for ( var i = 0; i < this.carArr.length; i++ ) {
             this.removeChild( this.carArr[i] );
         }
+
         this.createCarArr();
     },
 
@@ -116,22 +138,22 @@ var GameLayer = cc.LayerColor.extend( {
 
         return this.leafs;
     },
-    createLeafArr: function ( amt ) {
-        this.leafArr = new Array();
+    createOneRowLeafs: function ( amt ) {
+        this.leafsArr = new Array();
         var form = new Array( 200, 500, 800 );
 
         for ( var i = 0; i < 3; i++ ) {
-            this.leafArr[i] = this.createLeafs( amt );
+            this.leafsArr[i] = this.createLeafs( amt );
             for( var j = 0; j < amt; j++ ) {
-                var xPos = this.leafArr[i][j].getPositionX();
-                this.leafArr[i][j].setPosition( new cc.Point( form[i] + xPos, 0 ) );
+                var xPos = this.leafsArr[i][j].getPositionX();
+                this.leafsArr[i][j].setPosition( new cc.Point( form[i] + xPos, 0 ) );
             }
         }
 
-        return this.leafArr;
+        return this.leafsArr;
     }, 
     createAllLeaf: function () {
-        this.allLeaf = new Array( this.createLeafArr( 3 ), this.createLeafArr( 4 ), this.createLeafArr( 3 ) );
+        this.allLeaf = new Array( this.createOneRowLeafs( 3 ), this.createOneRowLeafs( 4 ), this.createOneRowLeafs( 3 ) );
         var yPosArr = new Array( 260, 380, 460 );
 
         for ( var i = 0; i < this.allLeaf.length; i++ ) {
@@ -143,6 +165,7 @@ var GameLayer = cc.LayerColor.extend( {
                 }
             }
         }
+
     },
 
     /////////    WOOD    ////////////
@@ -150,54 +173,61 @@ var GameLayer = cc.LayerColor.extend( {
         this.woodArr = new Array();
         var xPosArr = new Array( 200, 500, 800 );
         var yPosArr = new Array ( 300, 420 );
+        
         for ( var i = 0; i < 3; i++ ) {
             this.woodArr[i] = new Wood( amt );
             this.woodArr[i].setPosition( new cc.Point( xPosArr[i], yPosArr[ amt - 3 ] ) );
         }
+
         return this.woodArr;
     },
     createAllWoods: function () {
         this.allWoods = new Array( this.createWood( 3 ), this.createWood( 4 ) );
-         for ( var i = 0; i < this.allWoods.length; i++ ) {
+        
+        for ( var i = 0; i < this.allWoods.length; i++ ) {
             for ( var j = 0; j < this.allWoods[i].length; j++ ) {
                 this.addChild( this.allWoods[i][j] );
                 this.allWoods[i][j].scheduleUpdate();
             }
-        } 
+        }
+
     },
 
     /////////    CHECK    ////////////
     checkHitCar: function() {
+        
         for ( var i = 0; i < this.carArr.length; i++ ) {
             if( this.carArr[i].hit( this.frog ) ) {
                 this.frog.reborn();
-                this.updateLife();
+                this.updateLife( -1 );
+                this.createTime();
             }
         }
+
     },
     checkSide: function() {
 
         if ( this.frog.getPositionX() < 1 || this.frog.getPositionX() > 799 ) {   
-            this.updateLife();
+            this.updateLife( -1 );
             this.frog.reborn();
+            this.createTime();
         }
 
     },
-    checkPassLevel: function() {
+    checkCompleteLevel: function() {
        
         for ( var i = 0; i < 5; i++ ) {
-            this.passArr[i] = !this.caveArr[i].getAvailable();
+            this.isCompleteArr[i] = !this.caveArr[i].getAvailable();
         }
 
-
-        if( this.passArr[0] == true && this.passArr[1] == true && this.passArr[2] == true && this.passArr[3] == true && this.passArr[4] == true ) {
+        if ( this.isCompleteArr[0] == true && this.isCompleteArr[1] == true && this.isCompleteArr[2] == true && this.isCompleteArr[3] == true && this.isCompleteArr[4] == true ) {
             
             for ( var i = 0; i < 5; i++ ){
                 this.flagArr[i].setVisible( false );
             }
 
             for ( var i = 0; i < 5; i++ ){
-                this.passArr[i] = false;
+                this.isCompleteArr[i] = false;
             }
 
             for ( var i = 0; i < 5; i++ ){
@@ -206,15 +236,25 @@ var GameLayer = cc.LayerColor.extend( {
         } 
         
     },
+    checkTime: function() {
+        if ( this.time.getPositionX() == -400 ) { 
+            this.frog.reborn();
+            this.updateLife( -1 );
+            this.createTime();
+        }
+    },
 
     /////////    UPDATE    ////////////
     update: function( dt ) {
         
+        this.checkTime();
+
         this.checkSide();
 
         this.checkHitCar();
 
         var checkLife  = true;
+
         for ( var i = 0; i < this.allLeaf.length; i++ ) {
             for ( var j = 0; j < this.allLeaf[i].length; j++ ) {
                 for ( var k = 0; k < this.allLeaf[i][j].length; k++ ) {
@@ -248,6 +288,7 @@ var GameLayer = cc.LayerColor.extend( {
 
                 this.flagArr[i].setVisible( true );
                 this.frog.reborn();
+                this.createTime();
                 this.resetCar();
 
             }
@@ -256,11 +297,13 @@ var GameLayer = cc.LayerColor.extend( {
         if ( checkLife ) {
            if ( this.frog.getPositionY() >= 260 && this.frog.getPositionY() != 340) {
                 this.frog.reborn();
-                this.updateLife();
+                this.resetCar();
+                this.updateLife( -1 );
+                this.createTime();
             }
         }
 
-        this.checkPassLevel();
+        this.checkCompleteLevel();
 
     }
 
@@ -274,8 +317,6 @@ var StartScene = cc.Scene.extend({
         this.addChild( layer );
     }
 });
-
-var lifeScore = 10;
 
  GameLayer.STATES = {
     FRONT: 1,
