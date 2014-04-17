@@ -6,13 +6,13 @@ var GameLayer = cc.LayerColor.extend( {
         this.state = GameLayer.STATES.FRONT;
         
         this.createBackground( 0 );       
-        
+
         this.word = new Word();
         this.addChild( this.word );
         this.word.scheduleUpdate();
 
         this.checkLife = true;
-        this.lifeScore = 10;
+        this.lifeScore = 3;
 
         this.isCompleteArr = new Array( false, false, false, false, false );
 
@@ -27,7 +27,7 @@ var GameLayer = cc.LayerColor.extend( {
         
         if( this.state == GameLayer.STATES.FRONT ) { 
         
-            this.state = GameLayer.STATES.STARTED;
+            this.state = GameLayer.STATES.LEVEL_1;
             this.removeChild( this.word );
             this.removeChild( this.background );
 
@@ -41,10 +41,10 @@ var GameLayer = cc.LayerColor.extend( {
             this.createLife();
             this.createTime();
         
-        } else {
+        } else if ( this.state == GameLayer.STATES.LEVEL_1 ) {
             this.frog.switchDirection( e );
             this.frog.move();
-        }
+        } 
 
     },
     onKeyUp: function () {
@@ -319,28 +319,33 @@ var GameLayer = cc.LayerColor.extend( {
 
     /////////    UPDATE    ////////////
     update: function( dt ) {
-        if( this.state == GameLayer.STATES.FRONT ) {
-
-        } else { 
+        if( this.state == GameLayer.STATES.LEVEL_1 ) {
         
-        this.checkTime();
+            this.checkTime();
 
-        this.checkSide();
+            this.checkSide();
 
-        this.checkHitCar();
+            this.checkHitCar();
 
-        this.checkMoveLeaf();
+            this.checkMoveLeaf();
 
-        this.checkMoveWood();
+            this.checkMoveWood();
 
-        this.checkCave();
+            this.checkCave();
 
-        this.checkWater();
+            this.checkWater();
 
-        this.checkLife = true;
+            this.checkLife = true;
 
-        this.checkCompleteLevel();
-    }
+            this.checkCompleteLevel();
+
+            if ( this.lifeScore == -1 ) {
+                this.createBackground( 0 );
+                this.removeChild( this.frog );
+                this.state = GameLayer.STATES.ENDED;
+            }
+            
+        } 
 
     }
 
@@ -357,6 +362,6 @@ var StartScene = cc.Scene.extend({
 
  GameLayer.STATES = {
     FRONT: 1,
-    STARTED: 2,
+    LEVEL_1: 2,
     ENDED: 3
  };
