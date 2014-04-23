@@ -18,7 +18,7 @@ var GameLayer = cc.LayerColor.extend( {
 
         this.setKeyboardEnabled( true );
 
-        this.scheduleUpdate();
+        //this.scheduleUpdate();
 
         return true;
     },
@@ -30,21 +30,26 @@ var GameLayer = cc.LayerColor.extend( {
             this.state = GameLayer.STATES.LEVEL_1;
             this.removeChild( this.word );
             this.removeChild( this.background );
-
-            this.createBackground( 1 );
-            this.createFrog();
-            this.createCave();
-            this.createFlag();
-            this.createCarArr();
-            this.createAllLeaf();
-            this.createAllWoods();
-            this.createLife();
-            this.createTime();
+            this.level( 1 );
+            this.scheduleOnce(function() {
+                this.createBackground( 1 );
+                this.createFrog();
+                this.createCave();
+                this.createFlag();
+                this.createCarArr();
+                this.createAllLeaf();
+                this.createAllWoods();
+                this.createLife();
+                this.createTime();
+                this.scheduleUpdate();
+            }, 3);
         
         } else if ( this.state == GameLayer.STATES.LEVEL_1 ) {
             this.frog.switchDirection( e );
             this.frog.move();
-        } 
+        } else if ( this.state == GameLayer.STATES.LEVEL_2 ) {
+
+        }
 
     },
     onKeyUp: function () {
@@ -235,6 +240,7 @@ var GameLayer = cc.LayerColor.extend( {
 
         if ( this.isCompleteArr[0] == true && this.isCompleteArr[1] == true && this.isCompleteArr[2] == true && this.isCompleteArr[3] == true && this.isCompleteArr[4] == true ) {
             
+
             for ( var i = 0; i < 5; i++ ){
                 this.flagArr[i].setVisible( false );
             }
@@ -317,6 +323,20 @@ var GameLayer = cc.LayerColor.extend( {
 
     },
 
+    gameOver: function() {
+        this.gameOverLabel = cc.LabelTTF.create( '      Game Over       ', 'Arial', 40 );
+        this.gameOverLabel.setPosition( new cc.Point( 400, 300 ) );
+        this.addChild(this.gameOverLabel);
+    },
+    level: function( num ) {
+        this.levelLabel = cc.LabelTTF.create( '  Level  ' + num , 'Arial', 40 );
+        this.levelLabel.setPosition( new cc.Point( 400, 300 ) );
+        this.addChild(this.levelLabel);
+        this.scheduleOnce(function() {
+            this.removeChild(this.levelLabel);
+        }, 3);
+    },
+
     /////////    UPDATE    ////////////
     update: function( dt ) {
         
@@ -342,6 +362,7 @@ var GameLayer = cc.LayerColor.extend( {
 
             if ( this.lifeScore == -1 ) {
                 this.createBackground( 0 );
+                this.gameOver();
                 this.removeChild( this.frog );
                 this.state = GameLayer.STATES.ENDED;
             }
@@ -364,5 +385,6 @@ var StartScene = cc.Scene.extend({
  GameLayer.STATES = {
     FRONT: 1,
     LEVEL_1: 2,
-    ENDED: 3
+    LEVEL_2: 3,
+    ENDED: 4
  };
