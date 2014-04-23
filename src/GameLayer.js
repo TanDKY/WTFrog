@@ -12,7 +12,7 @@ var GameLayer = cc.LayerColor.extend( {
         this.word.scheduleUpdate();
 
         this.checkLife = true;
-        this.lifeScore = 3;
+        this.lifeScore = 10;
 
         this.isCompleteArr = new Array( false, false, false, false, false );
 
@@ -319,6 +319,7 @@ var GameLayer = cc.LayerColor.extend( {
 
     /////////    UPDATE    ////////////
     update: function( dt ) {
+        
         if( this.state == GameLayer.STATES.LEVEL_1 ) {
         
             this.checkTime();

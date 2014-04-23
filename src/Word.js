@@ -9,7 +9,7 @@ var Word = cc.Sprite.extend({
    		var posX = this.getPositionX();
    		var posY = this.getPositionY();
    		this.setPosition( cc.p( posX - 5, posY ) );
-		if ( posX <-50 ) { 
+		if ( posX < -200 ) { 
 			this.setPosition( new cc.p( 1000, 100 ) );
 		}
    	}
