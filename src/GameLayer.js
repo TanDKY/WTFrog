@@ -3,7 +3,7 @@ var GameLayer = cc.LayerColor.extend( {
         this._super( new cc.Color4B( 50, 150, 80, 200 ) );
         this.setPosition( new cc.Point( 0, 0 ) );
         
-        this.state = GameLayer.STATES.FRONT;
+        this.state = 0;
         
         this.createBackground( 0 );       
 
@@ -18,37 +18,81 @@ var GameLayer = cc.LayerColor.extend( {
 
         this.setKeyboardEnabled( true );
 
-        //this.scheduleUpdate();
-
         return true;
+    },
+    removeAll: function() {
+
+        this.removeChild( this.background );
+        this.frog.setVisible( false );
+
+        for ( var i = 0; i < this.caveArr.length; i++ ) {
+            this.removeChild( this.caveArr[i] );
+        }
+
+        for ( var i = 0; i < this.lifeScoreArr.length; i++ ) {
+            this.removeChild( this.lifeScoreArr[i] );
+        }
+
+        for ( var i = 0; i < this.carArr.length; i++ ) {
+            this.removeChild( this.carArr[i] );
+        }
+
+        for ( var i = 0; i < this.allLeaf.length; i++ ) {
+            for ( var j = 0; j < this.allLeaf[i].length; j++) {
+                for( var k = 0; k < this.allLeaf[i][j].length; k++ ) {
+                    this.removeChild( this.allLeaf[i][j][k] );
+                }
+            }
+        }
+
+        for ( var i = 0; i < this.allWoods.length; i++ ) {
+            for ( var j = 0; j < this.allWoods[i].length; j++ ) {
+                this.removeChild( this.allWoods[i][j] );
+            }
+        }
+
+        this.times.removeMe();
+        this.unscheduleUpdate();
+    },
+    addAll: function() {
+        this.scheduleOnce( function() {
+                this.createBackground( 1 );
+
+                if( this.state != 1 ) {
+                    this.frog.setVisible( true );
+                }
+                else {
+                    this.createFrog();
+                }
+                
+                this.createTime();
+                this.createCave();
+                this.createFlag();
+                this.createCarArr();
+                this.createAllLeafs();
+                this.createAllWoods();
+                this.createLife();
+                this.scheduleUpdate();
+        }, 3);
     },
 
     onKeyDown: function ( e ) {
         
-        if( this.state == GameLayer.STATES.FRONT ) { 
+        if( this.state == 0 ) { 
         
-            this.state = GameLayer.STATES.LEVEL_1;
+            this.state = 1;
             this.removeChild( this.word );
             this.removeChild( this.background );
-            this.level( 1 );
-            this.scheduleOnce(function() {
-                this.createBackground( 1 );
-                this.createFrog();
-                this.createCave();
-                this.createFlag();
-                this.createCarArr();
-                this.createAllLeaf();
-                this.createAllWoods();
-                this.createLife();
-                this.createTime();
-                this.scheduleUpdate();
-            }, 3);
+            this.level( this.state );
+            this.addAll();
         
-        } else if ( this.state == GameLayer.STATES.LEVEL_1 ) {
+        } else if ( this.state != 0 ) {
+
             this.frog.switchDirection( e );
             this.frog.move();
-        } else if ( this.state == GameLayer.STATES.LEVEL_2 ) {
-
+        } 
+        if( e == 82 ) {
+            this.removeAll();
         }
 
     },
@@ -70,9 +114,9 @@ var GameLayer = cc.LayerColor.extend( {
     },
 
     createTime: function () {
-        this.time = new Time();
-        this.addChild( this.time );
-        this.time.scheduleUpdate();
+        this.times = new Time();
+        this.addChild( this.times );
+        this.times.scheduleUpdate();
     },
 
     //Create Life
@@ -88,7 +132,6 @@ var GameLayer = cc.LayerColor.extend( {
     },
     updateLife: function( amt ) {
        this.lifeScore = this.lifeScore + amt;
-       console.log( amt );
        this.removeChild( this.lifeScoreArr[this.lifeScore]);
     },
 
@@ -170,7 +213,7 @@ var GameLayer = cc.LayerColor.extend( {
 
         return this.leafsArr;
     }, 
-    createAllLeaf: function () {
+    createAllLeafs: function () {
         this.allLeaf = new Array( this.createOneRowLeafs( 3 ), this.createOneRowLeafs( 4 ), this.createOneRowLeafs( 3 ) );
         var yPosArr = new Array( 260, 380, 460 );
 
@@ -239,30 +282,38 @@ var GameLayer = cc.LayerColor.extend( {
         }
 
         if ( this.isCompleteArr[0] == true && this.isCompleteArr[1] == true && this.isCompleteArr[2] == true && this.isCompleteArr[3] == true && this.isCompleteArr[4] == true ) {
-            
+            this.state++;
+            this.frog.unscheduleUpdate();
 
-            for ( var i = 0; i < 5; i++ ){
-                this.flagArr[i].setVisible( false );
-            }
+                for ( var i = 0; i < 5; i++ ){
+                    this.flagArr[i].setVisible( false );
+                }
 
-            for ( var i = 0; i < 5; i++ ){
-                this.isCompleteArr[i] = false;
-            }
+                for ( var i = 0; i < 5; i++ ){
+                    this.isCompleteArr[i] = false;
+                }
 
-            for ( var i = 0; i < 5; i++ ){
-                this.caveArr[i].setAvailable( true );
-            }
+                for ( var i = 0; i < 5; i++ ){
+                    this.caveArr[i].setAvailable( true );
+                } 
+
+            //this.removeAll();
+            this.removeAllChildren();
+            this.level( this.state );
+            this.addAll();
         } 
         
     },
     checkTime: function() {
-        if ( this.time.getPositionX() == -400 ) { 
+
+        if ( this.times.getPositionX() == -400 ) { 
             this.frog.reborn();
             this.updateLife( -1 );
             this.createTime();
         }
+
     },
-    checkMoveLeaf: function() {
+    moveWithLeaf: function() {
 
         for ( var i = 0; i < this.allLeaf.length; i++ ) {
             for ( var j = 0; j < this.allLeaf[i].length; j++ ) {
@@ -279,7 +330,7 @@ var GameLayer = cc.LayerColor.extend( {
         }
 
     },
-    checkMoveWood: function() {
+    moveWithWood: function() {
 
         for ( var i = 0; i < this.allWoods.length; i++ ) { 
             for ( var j = 0; j < this.allWoods[i].length; j++ ) {
@@ -324,33 +375,34 @@ var GameLayer = cc.LayerColor.extend( {
     },
 
     gameOver: function() {
+        this.removeAll();
         this.gameOverLabel = cc.LabelTTF.create( '      Game Over       ', 'Arial', 40 );
         this.gameOverLabel.setPosition( new cc.Point( 400, 300 ) );
-        this.addChild(this.gameOverLabel);
+        this.addChild( this.gameOverLabel );
     },
     level: function( num ) {
         this.levelLabel = cc.LabelTTF.create( '  Level  ' + num , 'Arial', 40 );
         this.levelLabel.setPosition( new cc.Point( 400, 300 ) );
         this.addChild(this.levelLabel);
         this.scheduleOnce(function() {
-            this.removeChild(this.levelLabel);
+            this.removeChild( this.levelLabel );
         }, 3);
     },
 
     /////////    UPDATE    ////////////
     update: function( dt ) {
         
-        if( this.state == GameLayer.STATES.LEVEL_1 ) {
+        if( this.state != 0  ) {
         
-            this.checkTime();
+            this.checkTime();  
 
             this.checkSide();
 
             this.checkHitCar();
 
-            this.checkMoveLeaf();
+            this.moveWithLeaf();
 
-            this.checkMoveWood();
+            this.moveWithWood();
 
             this.checkCave();
 
@@ -361,10 +413,9 @@ var GameLayer = cc.LayerColor.extend( {
             this.checkCompleteLevel();
 
             if ( this.lifeScore == -1 ) {
-                this.createBackground( 0 );
                 this.gameOver();
                 this.removeChild( this.frog );
-                this.state = GameLayer.STATES.ENDED;
+                this.state = 99;
             }
             
         } 
@@ -383,8 +434,8 @@ var StartScene = cc.Scene.extend({
 });
 
  GameLayer.STATES = {
-    FRONT: 1,
-    LEVEL_1: 2,
-    LEVEL_2: 3,
-    ENDED: 4
+    FRONT: 0,
+    LEVEL_1: 1,
+    LEVEL_2: 2,
+    ENDED: 3
  };

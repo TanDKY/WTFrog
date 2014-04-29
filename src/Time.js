@@ -5,6 +5,10 @@ var Time = cc.Sprite.extend({
         this.setPosition( 400, 15 );
    	},
 
+    removeMe: function() {
+      this.removeFromParent(true);
+    },
+
    	update: function( dt ) {
    		var posX = this.getPositionX();
    		var posY = this.getPositionY();
