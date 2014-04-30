@@ -20,59 +20,19 @@ var GameLayer = cc.LayerColor.extend( {
 
         return true;
     },
-    removeAll: function() {
-
-        this.removeChild( this.background );
-        this.frog.setVisible( false );
-
-        for ( var i = 0; i < this.caveArr.length; i++ ) {
-            this.removeChild( this.caveArr[i] );
-        }
-
-        for ( var i = 0; i < this.lifeScoreArr.length; i++ ) {
-            this.removeChild( this.lifeScoreArr[i] );
-        }
-
-        for ( var i = 0; i < this.carArr.length; i++ ) {
-            this.removeChild( this.carArr[i] );
-        }
-
-        for ( var i = 0; i < this.allLeaf.length; i++ ) {
-            for ( var j = 0; j < this.allLeaf[i].length; j++) {
-                for( var k = 0; k < this.allLeaf[i][j].length; k++ ) {
-                    this.removeChild( this.allLeaf[i][j][k] );
-                }
-            }
-        }
-
-        for ( var i = 0; i < this.allWoods.length; i++ ) {
-            for ( var j = 0; j < this.allWoods[i].length; j++ ) {
-                this.removeChild( this.allWoods[i][j] );
-            }
-        }
-
-        this.times.removeMe();
-        this.unscheduleUpdate();
-    },
+    
     addAll: function() {
         this.scheduleOnce( function() {
-                this.createBackground( 1 );
-
-                if( this.state != 1 ) {
-                    this.frog.setVisible( true );
-                }
-                else {
-                    this.createFrog();
-                }
-                
-                this.createTime();
-                this.createCave();
-                this.createFlag();
-                this.createCarArr();
-                this.createAllLeafs();
-                this.createAllWoods();
-                this.createLife();
-                this.scheduleUpdate();
+            this.createBackground( 1 );
+            this.createFrog();
+            this.createTime();
+            this.createCave();
+            this.createFlag();
+            this.createCarArr();
+            this.createAllLeafs();
+            this.createAllWoods();
+            this.createLife();
+            this.scheduleUpdate();
         }, 3);
     },
 
@@ -297,7 +257,6 @@ var GameLayer = cc.LayerColor.extend( {
                     this.caveArr[i].setAvailable( true );
                 } 
 
-            //this.removeAll();
             this.removeAllChildren();
             this.level( this.state );
             this.addAll();
@@ -375,7 +334,7 @@ var GameLayer = cc.LayerColor.extend( {
     },
 
     gameOver: function() {
-        this.removeAll();
+        this.removeAllChildren();
         this.gameOverLabel = cc.LabelTTF.create( '      Game Over       ', 'Arial', 40 );
         this.gameOverLabel.setPosition( new cc.Point( 400, 300 ) );
         this.addChild( this.gameOverLabel );
