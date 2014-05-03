@@ -51,9 +51,6 @@ var GameLayer = cc.LayerColor.extend( {
             this.frog.switchDirection( e );
             this.frog.move();
         } 
-        if( e == 82 ) {
-            this.removeAll();
-        }
 
     },
     onKeyUp: function () {
@@ -125,7 +122,7 @@ var GameLayer = cc.LayerColor.extend( {
         var randomPosX = Math.round( Math.random() * 8 ) * 150;
         var posY = new Array( 100, 140, 180);
 
-        var car = new Car( index );
+        var car = new Car( index , this );
         car.setPosition( new cc.Point( randomPosX, posY[index % 3] ) );
 
         return car;
@@ -153,7 +150,7 @@ var GameLayer = cc.LayerColor.extend( {
         this.leafs = new Array();
 
         for ( var i = 0; i < amt; i++ ) {
-            this.leafs[i] = new Leaf( amt );
+            this.leafs[i] = new Leaf( amt, this );
             this.leafs[i].setPosition( new cc.Point( i * 40, 0 ) );
         }
 

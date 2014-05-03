@@ -1,20 +1,30 @@
 var Leaf = cc.Sprite.extend({
-	ctor: function ( amt ) {
+	ctor: function ( amt, gameLayer) {
 		this._super();
-    this.amount = amt;
+        this.amount = amt;
+        this.gameLayer = gameLayer;
 		this.initWithFile( 'images/leaf.png' );
 	},
 	update: function ( dt ) {
-   		if ( this.amount == 3 ) {
-            this.setPositionX( this.getPositionX() - Leaf.SPEED.THREE );
+   		var speed = this.chooseSpeed();
+        if ( this.amount == 3 ) {
+            this.setPositionX( this.getPositionX() - speed.THREE );
         } else {
-            this.setPositionX( this.getPositionX() - Leaf.SPEED.FOUR );
+            this.setPositionX( this.getPositionX() - speed.FOUR );
         }
 
    		if ( this.getPositionX() <= -100 ) {
         	this.setPositionX( 920 );
         }
  	},
+    chooseSpeed: function() {
+        if ( this.gameLayer.state > 1 ) {
+            return Leaf.SPEED2;
+        }
+        else {
+            return Leaf.SPEED1;
+        }
+    },
     moveWith: function ( frog ){
    	    var frogPos = frog.getPosition();
    	    var leafPos = this.getPosition();
@@ -27,7 +37,12 @@ var Leaf = cc.Sprite.extend({
     }
 });
 
-Leaf.SPEED = {
-  THREE: 4,
-  FOUR: 6
+Leaf.SPEED1 = {
+  THREE: 3,
+  FOUR: 5
+}
+
+Leaf.SPEED2 = {
+  THREE: 5,
+  FOUR: 7
 }
