@@ -1,7 +1,7 @@
 var Frog = cc.Sprite.extend({
     ctor: function () {
         this._super();
-        this.initWithFile( 'images/frog2.png' );
+        this.initWithFile( 'images/frog.png' );
         this.direction = 0;
         this.setPosition( new cc.Point( 400, 60 ) );
    	},
@@ -29,6 +29,40 @@ var Frog = cc.Sprite.extend({
 	  		this.setPosition( new cc.Point( pos.x, pos.y ) );
 		}
 		
+    },
+    moveWithLeaf: function( allLeaf ) {
+        var checkLife = true;
+        for ( var i = 0; i < allLeaf.length; i++ ) {
+            for ( var j = 0; j < allLeaf[i].length; j++ ) {
+                for ( var k = 0; k < allLeaf[i][j].length; k++ ) {
+                    var leaf = allLeaf[i][j][k];
+                    var xPos = leaf.getPositionX();
+                    var yPos = leaf.getPositionY();
+                    if ( leaf.moveWith( this ) ){
+                        this.setPosition( xPos, yPos );
+                        checkLife = false;
+                    }
+                }
+            }
+        }
+        return checkLife;
+    },
+    moveWithWood: function( allWoods, checkLife ) {
+
+        for ( var i = 0; i < allWoods.length; i++ ) { 
+            for ( var j = 0; j < allWoods[i].length; j++ ) {
+                var wood = allWoods[i][j];
+                var xPosW = wood.getPositionX();
+                var yPosW = wood.getPositionY();
+                var detectWood = wood.moveWith( this );
+                
+                if ( detectWood != 99 ) { 
+                    this.setPosition( xPosW + detectWood, yPosW );
+                    checkLife = false;
+                }
+            }
+        }   
+        return checkLife;
     }
 });
 

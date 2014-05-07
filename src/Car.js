@@ -35,7 +35,7 @@ var Car = cc.Sprite.extend({
             return Car.SPEED1;
         }
     },
-   	hit: function ( frog ){
+   	hit: function ( frog ) {
    		var frogPos = frog.getPosition();
    		var carPos = this.getPosition();
 
@@ -44,14 +44,20 @@ var Car = cc.Sprite.extend({
     	}
     
     	return false;
-   	}
+   	},
+    checkDie: function( frog ) {
+        if( this.hit( frog ) == true ) {
+            this.gameLayer.regame();
+            this.gameLayer.updateLife( -1 );
+        }
+    }
 });
 
 Car.SPEED1 = {
-  FROM_RIGHT: 6,
-  FROM_LEFT: 9
+  FROM_RIGHT: 5,
+  FROM_LEFT: 8
 }
 Car.SPEED2 = {
-  FROM_RIGHT: 8,
-  FROM_LEFT: 11
+  FROM_RIGHT: 7,
+  FROM_LEFT: 10
 }

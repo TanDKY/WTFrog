@@ -73,7 +73,7 @@ var GameLayer = cc.LayerColor.extend( {
     },
 
     createTime: function () {
-        this.times = new Time();
+        this.times = new Time( this );
         this.addChild( this.times );
         this.times.scheduleUpdate();
     },
@@ -214,16 +214,6 @@ var GameLayer = cc.LayerColor.extend( {
     },
 
     /////////    CHECK    ////////////
-    checkHitCar: function() {
-        
-        for ( var i = 0; i < this.carArr.length; i++ ) {
-            if( this.carArr[i].hit( this.frog ) ) {
-                this.regame();
-                this.updateLife( -1 );
-            }
-        }
-
-    },
     checkSide: function() {
 
         if ( this.frog.getPositionX() < 1 || this.frog.getPositionX() > 799 ) {   
@@ -260,48 +250,7 @@ var GameLayer = cc.LayerColor.extend( {
         } 
         
     },
-    checkTime: function() {
 
-        if ( this.times.getPositionX() == -400 ) { 
-            this.regame();
-            this.updateLife( -1 );
-        }
-
-    },
-    moveWithLeaf: function() {
-
-        for ( var i = 0; i < this.allLeaf.length; i++ ) {
-            for ( var j = 0; j < this.allLeaf[i].length; j++ ) {
-                for ( var k = 0; k < this.allLeaf[i][j].length; k++ ) {
-                    var leaf = this.allLeaf[i][j][k];
-                    var xPos = leaf.getPositionX();
-                    var yPos = leaf.getPositionY();
-                    if ( leaf.moveWith( this.frog ) ){
-                        this.frog.setPosition( xPos, yPos );
-                        this.checkLife = false;
-                    }
-                }
-            }
-        }
-
-    },
-    moveWithWood: function() {
-
-        for ( var i = 0; i < this.allWoods.length; i++ ) { 
-            for ( var j = 0; j < this.allWoods[i].length; j++ ) {
-                var wood = this.allWoods[i][j];
-                var xPosW = wood.getPositionX();
-                var yPosW = wood.getPositionY();
-                var detectWood = wood.moveWith( this.frog );
-                
-                if ( detectWood != 99 ) { 
-                    this.frog.setPosition( xPosW + detectWood, yPosW );
-                    this.checkLife = false;
-                } 
-            }
-        }   
-
-    },
     checkCave: function() {
 
         for ( var i = 0; i < this.caveArr.length; i++ ){
@@ -359,17 +308,19 @@ var GameLayer = cc.LayerColor.extend( {
     /////////    UPDATE    ////////////
     update: function( dt ) {
         
-        if( this.state != 0  ) {
+        if ( this.state != 0  ) {
         
-            this.checkTime();  
+            this.times.checkDie(); 
 
             this.checkSide();
 
-            this.checkHitCar();
+            for ( var i = 0; i < this.carArr.length; i++ ) {
+                this.carArr[i].checkDie( this.frog );
+            }
 
-            this.moveWithLeaf();
-
-            this.moveWithWood();
+            this.checkLife = this.frog.moveWithLeaf( this.allLeaf );
+            
+            this.checkLife = this.frog.moveWithWood( this.allWoods, this.checkLife );
 
             this.checkCave();
 

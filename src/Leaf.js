@@ -38,11 +38,11 @@ var Leaf = cc.Sprite.extend({
 });
 
 Leaf.SPEED1 = {
-  THREE: 4,
-  FOUR: 5
+  THREE: 3,
+  FOUR: 4
 }
 
 Leaf.SPEED2 = {
-  THREE: 7,
-  FOUR: 8
+  THREE: 5,
+  FOUR: 6
 }
