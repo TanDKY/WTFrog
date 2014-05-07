@@ -1,7 +1,7 @@
 var Frog = cc.Sprite.extend({
     ctor: function () {
         this._super();
-        this.initWithFile( 'images/frog1.png' );
+        this.initWithFile( 'images/frog2.png' );
         this.direction = 0;
         this.setPosition( new cc.Point( 400, 60 ) );
    	},

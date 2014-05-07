@@ -52,6 +52,6 @@ Car.SPEED1 = {
   FROM_LEFT: 9
 }
 Car.SPEED2 = {
-  FROM_RIGHT: 10,
-  FROM_LEFT: 12
+  FROM_RIGHT: 8,
+  FROM_LEFT: 11
 }
