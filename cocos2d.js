@@ -23,7 +23,7 @@
             'src/Flag.js',
             'src/time.js',
             'src/Word.js',
-            'src/Cross.js'
+            'src/Ghost.js'
         ]
     };
 

@@ -33,7 +33,7 @@ var GameLayer = cc.LayerColor.extend( {
             this.createAllLeafs();
             this.createAllWoods();
             this.createLife();
-            this.createCross();
+            this.createGhost();
             this.showScore();
             this.scheduleUpdate();
         }, 3);
@@ -45,7 +45,8 @@ var GameLayer = cc.LayerColor.extend( {
         
             this.state = 1;
             this.removeChild( this.word );
-            this.removeChild( this.background );
+            //this.removeChild( this.background );
+            this.background.runAction(cc.FadeOut.create(0.5));
             this.level( this.state );
             this.addAll();
         
@@ -60,20 +61,20 @@ var GameLayer = cc.LayerColor.extend( {
         this.frog.switchDirection( 0 );
     },
     
-    createCross: function() {
-        this.cross = new Cross( this );
+    createGhost: function() {
+        this.ghost = new Ghost( this );
         var rand = Math.round( Math.random() * 4 );
 
         if ( this.isCompleteArr[rand] == true ) {
-            this.cross.setVisible( false );
+            this.ghost.setVisible( false );
         }
         
-        this.cross.setPosition( new cc.Point( 80 + ( 160 * rand ), 510 ) );
-        this.addChild( this.cross );
+        this.ghost.setPosition( new cc.Point( 80 + ( 160 * rand ), 510 ) );
+        this.addChild( this.ghost );
     },
-    resetCross: function() {
-        this.removeChild( this.cross );
-        this.createCross();
+    resetGhost: function() {
+        this.removeChild( this.ghost );
+        this.createGhost();
     },
 
     createFrog: function () {
@@ -86,7 +87,9 @@ var GameLayer = cc.LayerColor.extend( {
 
     createBackground: function( index ) {
         this.background = new Background( index );
+        this.background.setOpacity(0);
         this.addChild( this.background );
+        this.background.runAction(cc.FadeIn.create(0.4));
     },
 
     createTime: function () {
@@ -278,8 +281,8 @@ var GameLayer = cc.LayerColor.extend( {
     },
 
     checkCave: function() {
-        if ( this.cross.hit( this.frog ) ) {
-            this.cross.checkDie( this.frog );
+        if ( this.ghost.hit( this.frog ) ) {
+            this.ghost.checkDie( this.frog );
         }
         else {
             for ( var i = 0; i < this.caveArr.length; i++ ){
@@ -307,11 +310,11 @@ var GameLayer = cc.LayerColor.extend( {
     regame: function() {
 
         if( this.checkNumPass() < 3 ) {
-            this.resetCross();
+            this.resetGhost();
         }
         else {
-            this.removeChild( this.cross );
-            this.cross.setPosition( new cc.Point( 800, 600 ) )
+            this.removeChild( this.ghost );
+            this.ghost.setPosition( new cc.Point( 800, 600 ) )
         }
 
         this.frog.reborn();
