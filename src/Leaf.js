@@ -14,7 +14,7 @@ var Leaf = cc.Sprite.extend({
         }
 
    		if ( this.getPositionX() <= -100 ) {
-        	this.setPositionX( 920 );
+        	this.setPositionX( 1200 );
         }
  	},
     chooseSpeed: function() {

@@ -33,6 +33,7 @@ var GameLayer = cc.LayerColor.extend( {
             this.createAllLeafs();
             this.createAllWoods();
             this.createLife();
+            this.createCross();
             this.showScore();
             this.scheduleUpdate();
         }, 3);
@@ -57,6 +58,22 @@ var GameLayer = cc.LayerColor.extend( {
     },
     onKeyUp: function () {
         this.frog.switchDirection( 0 );
+    },
+    
+    createCross: function() {
+        this.cross = new Cross( this );
+        var rand = Math.round( Math.random() * 4 );
+
+        if ( this.isCompleteArr[rand] == true ) {
+            this.cross.setVisible( false );
+        }
+        
+        this.cross.setPosition( new cc.Point( 80 + ( 160 * rand ), 510 ) );
+        this.addChild( this.cross );
+    },
+    resetCross: function() {
+        this.removeChild( this.cross );
+        this.createCross();
     },
 
     createFrog: function () {
@@ -160,9 +177,9 @@ var GameLayer = cc.LayerColor.extend( {
     },
     createOneRowLeafs: function ( amt ) {
         this.leafsArr = new Array();
-        var form = new Array( 200, 500, 800 );
+        var form = new Array( 200, 500, 800, 1100 );
 
-        for ( var i = 0; i < 3; i++ ) {
+        for ( var i = 0; i < 4; i++ ) {
             this.leafsArr[i] = this.createLeafs( amt );
             for( var j = 0; j < amt; j++ ) {
                 var xPos = this.leafsArr[i][j].getPositionX();
@@ -228,7 +245,7 @@ var GameLayer = cc.LayerColor.extend( {
             this.isCompleteArr[i] = !this.caveArr[i].getAvailable();
         }
 
-        if ( this.isCompleteArr[0] == true && this.isCompleteArr[1] == true && this.isCompleteArr[2] == true && this.isCompleteArr[3] == true && this.isCompleteArr[4] == true ) {
+        if ( this.checkNumPass() == 5 ) {
             this.state++;
             this.frog.unscheduleUpdate();
 
@@ -250,15 +267,28 @@ var GameLayer = cc.LayerColor.extend( {
         } 
         
     },
+    checkNumPass: function() {
+        var count = 0;
+        for ( var i = 0; i < 5; i++ ) {
+            if ( this.isCompleteArr[i] == true ) {
+                count++;
+            }
+        }
+        return count;
+    },
 
     checkCave: function() {
-
-        for ( var i = 0; i < this.caveArr.length; i++ ){
-            if (this.caveArr[i].checkFinish( this.frog )){
-                this.score = this.score + ( this.state * ( this.times.getPositionX() + 600 ) );
-                this.flagArr[i].setVisible( true );
-                this.regame();
-                this.resetCar(); 
+        if ( this.cross.hit( this.frog ) ) {
+            this.cross.checkDie( this.frog );
+        }
+        else {
+            for ( var i = 0; i < this.caveArr.length; i++ ){
+                if (this.caveArr[i].checkFinish( this.frog )){
+                    this.score = this.score + ( this.state * ( this.times.getPositionX() + 600 ) );
+                    this.flagArr[i].setVisible( true );
+                    this.regame();
+                    this.resetCar(); 
+                }
             }
         }
 
@@ -275,6 +305,15 @@ var GameLayer = cc.LayerColor.extend( {
 
     },
     regame: function() {
+
+        if( this.checkNumPass() < 3 ) {
+            this.resetCross();
+        }
+        else {
+            this.removeChild( this.cross );
+            this.cross.setPosition( new cc.Point( 800, 600 ) )
+        }
+
         this.frog.reborn();
         this.createTime(); 
         this.score = this.score - 200;  
@@ -309,7 +348,7 @@ var GameLayer = cc.LayerColor.extend( {
     update: function( dt ) {
         
         if ( this.state != 0  ) {
-        
+            
             this.times.checkDie(); 
 
             this.checkSide();
@@ -323,7 +362,7 @@ var GameLayer = cc.LayerColor.extend( {
             this.checkLife = this.frog.moveWithWood( this.allWoods, this.checkLife );
 
             this.checkCave();
-
+  
             this.checkWater();
 
             this.checkLife = true;

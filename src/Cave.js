@@ -1,7 +1,7 @@
 var Cave = cc.Sprite.extend({
     ctor: function () {
         this._super();
-        this.available = true;
+        this.available = 1;
         this.initWithFile( 'images/cave.png' );
    	},
 
@@ -9,9 +9,9 @@ var Cave = cc.Sprite.extend({
    		var frogPos = frog.getPosition();
    	    var cavePos = this.getPosition();
 
-   	    if ( this.available ){
+   	    if ( this.available == 1 ){
             if ( frogPos.y > 460 && Math.abs( frogPos.x - cavePos.x ) <= 20 ) {
-                this.available = false 
+                this.available = 0 
                 return true;
             }
 
