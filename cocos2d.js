@@ -23,7 +23,8 @@
             'src/Flag.js',
             'src/time.js',
             'src/Word.js',
-            'src/Ghost.js'
+            'src/Ghost.js',
+            'src/Train.js'
         ]
     };
 

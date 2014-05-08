@@ -34,6 +34,7 @@ var GameLayer = cc.LayerColor.extend( {
             this.createAllWoods();
             this.createLife();
             this.createGhost();
+            this.createTrain();
             this.showScore();
             this.scheduleUpdate();
         }, 3);
@@ -45,7 +46,6 @@ var GameLayer = cc.LayerColor.extend( {
         
             this.state = 1;
             this.removeChild( this.word );
-            //this.removeChild( this.background );
             this.background.runAction(cc.FadeOut.create(0.5));
             this.level( this.state );
             this.addAll();
@@ -83,6 +83,16 @@ var GameLayer = cc.LayerColor.extend( {
         this.addChild( this.frog );
         this.frog.setZOrder( 1 );
 
+    },
+    createTrain: function() {
+        var type = Math.round( Math.random() );
+        this.train = new Train( type, this );
+        this.addChild( this.train );
+        this.train.scheduleUpdate();
+    },
+    resetTrain: function() {
+        this.removeChild( this.train );
+        this.createTrain();
     },
 
     createBackground: function( index ) {
@@ -291,6 +301,7 @@ var GameLayer = cc.LayerColor.extend( {
                     this.flagArr[i].setVisible( true );
                     this.regame();
                     this.resetCar(); 
+                    this.resetTrain();
                 }
             }
         }
@@ -302,7 +313,8 @@ var GameLayer = cc.LayerColor.extend( {
            if ( this.frog.getPositionY() >= 260 && this.frog.getPositionY() != 340) {
                 this.regame();
                 this.updateLife( -1 );
-                this.resetCar(); 
+                this.resetCar();
+                this.resetTrain(); 
             }
         }
 
@@ -359,6 +371,8 @@ var GameLayer = cc.LayerColor.extend( {
             for ( var i = 0; i < this.carArr.length; i++ ) {
                 this.carArr[i].checkDie( this.frog );
             }
+
+            this.train.checkDie( this.frog ); 
 
             this.checkLife = this.frog.moveWithLeaf( this.allLeaf );
             

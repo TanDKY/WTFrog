@@ -15,7 +15,7 @@ var Car = cc.Sprite.extend({
       if ( this.index % 3 != 1 ) { 
          this.setPositionX( this.getPositionX() - speed.FROM_RIGHT );
 
-	   		  if ( this.getPositionX() <= -100 ) {
+	   		if ( this.getPositionX() <= -100 ) {
 	    	    this.setPositionX( 1100 );
 	  	    }
    		} 
