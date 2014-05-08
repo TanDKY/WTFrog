@@ -28,7 +28,7 @@ var Car = cc.Sprite.extend({
 	    }
    	},
     chooseSpeed: function() {
-        if ( this.gameLayer.state > 1 ) {
+        if ( this.gameLayer.state > 2 ) {
             return Car.SPEED2;
         }
         else {

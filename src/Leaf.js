@@ -18,7 +18,7 @@ var Leaf = cc.Sprite.extend({
         }
  	},
     chooseSpeed: function() {
-        if ( this.gameLayer.state > 1 ) {
+        if ( this.gameLayer.state > 2 ) {
             return Leaf.SPEED2;
         }
         else {

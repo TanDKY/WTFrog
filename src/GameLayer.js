@@ -15,6 +15,7 @@ var GameLayer = cc.LayerColor.extend( {
         this.checkLife = true;
         this.lifeScore = 10;
 
+
         this.isCompleteArr = new Array( false, false, false, false, false );
 
         this.setKeyboardEnabled( true );
@@ -34,7 +35,7 @@ var GameLayer = cc.LayerColor.extend( {
             this.createAllWoods();
             this.createLife();
             this.createGhost();
-            this.createTrain();
+            this.createTrain();    
             this.showScore();
             this.scheduleUpdate();
         }, 3);
@@ -297,7 +298,7 @@ var GameLayer = cc.LayerColor.extend( {
         else {
             for ( var i = 0; i < this.caveArr.length; i++ ){
                 if (this.caveArr[i].checkFinish( this.frog )){
-                    this.score = this.score + ( this.state * ( this.times.getPositionX() + 600 ) );
+                    this.score = this.score + ( this.state * ( this.times.getPositionX() + 500 ) );
                     this.flagArr[i].setVisible( true );
                     this.regame();
                     this.resetCar(); 
@@ -331,7 +332,7 @@ var GameLayer = cc.LayerColor.extend( {
 
         this.frog.reborn();
         this.createTime(); 
-        this.score = this.score - 200;  
+        this.score = this.score - 100;  
     },
 
     ///  Label  ////
@@ -371,8 +372,9 @@ var GameLayer = cc.LayerColor.extend( {
             for ( var i = 0; i < this.carArr.length; i++ ) {
                 this.carArr[i].checkDie( this.frog );
             }
-
+                
             this.train.checkDie( this.frog ); 
+    
 
             this.checkLife = this.frog.moveWithLeaf( this.allLeaf );
             

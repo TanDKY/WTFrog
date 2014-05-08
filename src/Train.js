@@ -6,25 +6,35 @@ var Train = cc.Sprite.extend({
         this.type = type;
         if ( this.type == 0 ) {
             this.setRotation( 180 );
-            this.setPosition( new cc.Point( -100, 340 ) );
+            this.setPosition( new cc.Point( -150, 340 ) );
         }
         else {
-            this.setPosition( new cc.Point( 900, 340 ) ); 
+            this.setPosition( new cc.Point( 950, 340 ) ); 
         }
    	},
    	update: function ( dt ) {
-        if ( this.type == 0 ){
-            this.setPositionX( this.getPositionX() + 3 );
+        if ( this.gameLayer.state > 1 ) {
+            if ( this.type == 0 ){
+                this.setPositionX( this.getPositionX() + this.chooseSpeed() );
 
-            if ( this.getPositionX() >= 1000 ) {
-                this.setPositionX( -400 );
+                if ( this.getPositionX() >= 1000 ) {
+                    this.setPositionX( -400 );
+                }
+            }
+            else {
+                this.setPositionX( this.getPositionX() - this.chooseSpeed() );
+                if ( this.getPositionX() <= -200 ) {
+                    this.setPositionX( 1200 );
+                }
             }
         }
+    },
+    chooseSpeed: function() {
+        if ( this.gameLayer.state > 3 ) {
+            return 5;
+        }
         else {
-            this.setPositionX( this.getPositionX() - 3 );
-            if ( this.getPositionX() <= -200 ) {
-                this.setPositionX( 1200 );
-            }
+            return 3;
         }
     },
     hit: function ( frog ) {

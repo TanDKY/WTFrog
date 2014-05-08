@@ -2,7 +2,7 @@ var Ghost = cc.Sprite.extend({
     ctor: function ( gameLayer ) {
         this._super();
         this.gameLayer = gameLayer;
-        this.initWithFile( 'images/ghost2.png' );
+        this.initWithFile( 'images/ghost.png' );
    	},
    	hit: function ( frog ) {
    		var frogPos = frog.getPosition();
