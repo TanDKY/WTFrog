@@ -8,19 +8,20 @@ var g_resources = [
     {src: 'images/cave.png' },
     {src: 'images/flag.png' },
     {src: 'images/frog.png' },
+    {src: 'images/ghost.png' },
     {src: 'images/leaf.png' },
     {src: 'images/life.png' },
+    {src: 'images/opening.png' },
     {src: 'images/rail.png' },
     {src: 'images/road.png' },
+    {src: 'images/time.png' },
+    {src: 'images/train.png' },  
     {src: 'images/water.png' },
     {src: 'images/wood3.png' },
     {src: 'images/wood4.png' },
     {src: 'images/bg1.png' },
-    {src: 'images/opening.png' },
     {src: 'images/word.png' },
     
-       
- 
     //plist
  
     //fnt
